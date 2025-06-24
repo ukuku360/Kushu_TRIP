@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 50%, #ffeaa7 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 지브리 스타일 색상 변수 */
+:root {
+  --ghibli-green: #81c784;
+  --ghibli-blue: #64b5f6;
+  --ghibli-pink: #f48fb1;
+  --ghibli-yellow: #fff176;
+  --ghibli-brown: #a1887f;
+  --ghibli-cream: #fff8e1;
+  --ghibli-forest: #66bb6a;
+  --ghibli-sky: #e1f5fe;
+  --text-dark: #2e3440;
+  --text-light: #3b4252;
+  --shadow-soft: rgba(0, 0, 0, 0.1);
+} 
