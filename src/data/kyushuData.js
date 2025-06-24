@@ -32,6 +32,35 @@ export const kyushuData = {
           { name: '하카타 모츠나베', rating: 4.7, specialty: '미소 베이스' }
         ]
       }
+    },
+    hotplaces: {
+      ohori_park: {
+        name: '오호리공원',
+        emoji: '🌸',
+        spots: [
+          { name: '오호리공원 일본정원', rating: 4.8, specialty: '전통 일본 정원' },
+          { name: '오호리공원 벚꽃길', rating: 4.7, specialty: '벚꽃 명소' },
+          { name: '오호리공원 보트하우스', rating: 4.6, specialty: '호수 보트 체험' }
+        ]
+      },
+      dazaifu: {
+        name: '다자이후',
+        emoji: '⛩️',
+        spots: [
+          { name: '다자이후 텐만구', rating: 4.9, specialty: '학문의 신' },
+          { name: '다자이후 국립박물관', rating: 4.8, specialty: '규슈 역사' },
+          { name: '가멘지절', rating: 4.7, specialty: '정토 정원' }
+        ]
+      },
+      canal_city: {
+        name: '캐널시티',
+        emoji: '🛍️',
+        spots: [
+          { name: '캐널시티 하카타', rating: 4.8, specialty: '쇼핑몰 분수쇼' },
+          { name: '라멘 스타디움', rating: 4.7, specialty: '라멘 푸드코트' },
+          { name: '유니클로 플래그십', rating: 4.6, specialty: '최대 규모 유니클로' }
+        ]
+      }
     }
   },
   kurume: {
@@ -65,6 +94,35 @@ export const kyushuData = {
           { name: '마루호시', rating: 4.7, specialty: '쫄깃한 면발' },
           { name: '우동 스키', rating: 4.6, specialty: '맑은 국물' },
           { name: '테우치 우동', rating: 4.5, specialty: '수제 우동' }
+        ]
+      }
+    },
+    hotplaces: {
+      inari_shrine: {
+        name: '이나리 신사',
+        emoji: '⛩️',
+        spots: [
+          { name: '쿠루메 스이텐구', rating: 4.8, specialty: '연애성취 신사' },
+          { name: '이나리 산책로', rating: 4.7, specialty: '산책로' },
+          { name: '신사 축제장', rating: 4.6, specialty: '계절 축제' }
+        ]
+      },
+      chikugo_river: {
+        name: '치쿠고강',
+        emoji: '🌊',
+        spots: [
+          { name: '치쿠고강 리버파크', rating: 4.7, specialty: '강변 공원' },
+          { name: '유카타가와 하천부지', rating: 4.6, specialty: '바베큐장' },
+          { name: '치쿠고강 불꽃축제장', rating: 4.5, specialty: '여름 축제' }
+        ]
+      },
+      ishibashi_bunka: {
+        name: '이시바시 문화센터',
+        emoji: '🎭',
+        spots: [
+          { name: '브리지스톤 미술관', rating: 4.8, specialty: '현대 미술' },
+          { name: '문화회관', rating: 4.6, specialty: '공연장' },
+          { name: '도서관', rating: 4.5, specialty: '시민 휴식처' }
         ]
       }
     }
@@ -102,6 +160,35 @@ export const kyushuData = {
           { name: '연근마을', rating: 4.5, specialty: '연근 코스' }
         ]
       }
+    },
+    hotplaces: {
+      kumamoto_castle: {
+        name: '구마모토성',
+        emoji: '🏯',
+        spots: [
+          { name: '구마모토성 천수각', rating: 4.9, specialty: '일본 3대 명성' },
+          { name: '니노마루 공원', rating: 4.8, specialty: '성곽 정원' },
+          { name: '가토 기요마사 상', rating: 4.7, specialty: '역사 유적' }
+        ]
+      },
+      suizenji: {
+        name: '스이젠지 정원',
+        emoji: '🌸',
+        spots: [
+          { name: '스이젠지 조쥬엔', rating: 4.8, specialty: '전통 정원' },
+          { name: '미니 후지산', rating: 4.7, specialty: '정원 조형물' },
+          { name: '출수공원', rating: 4.6, specialty: '맑은 물' }
+        ]
+      },
+      aso_shrine: {
+        name: '아소 신사',
+        emoji: '⛩️',
+        spots: [
+          { name: '아소 신사 본전', rating: 4.8, specialty: '화산 신앙' },
+          { name: '몬젠마치 거리', rating: 4.7, specialty: '전통 상점가' },
+          { name: '아소 농장랜드', rating: 4.6, specialty: '체험 목장' }
+        ]
+      }
     }
   },
   nagasaki: {
@@ -137,6 +224,35 @@ export const kyushuData = {
           { name: '린가', rating: 4.7, specialty: '초콜릿 카스테라' }
         ]
       }
+    },
+    hotplaces: {
+      glover_garden: {
+        name: '글로버 정원',
+        emoji: '🌹',
+        spots: [
+          { name: '글로버 저택', rating: 4.9, specialty: '메이지 시대 양관' },
+          { name: '린거 하우스', rating: 4.8, specialty: '서양식 정원' },
+          { name: '알트 하우스', rating: 4.7, specialty: '나가사키 항구 전망' }
+        ]
+      },
+      peace_park: {
+        name: '평화공원',
+        emoji: '🕊️',
+        spots: [
+          { name: '평화 기념상', rating: 4.8, specialty: '평화 기원상' },
+          { name: '원폭 자료관', rating: 4.7, specialty: '역사 교육' },
+          { name: '천학 기념관', rating: 4.6, specialty: '평화 학습' }
+        ]
+      },
+      dejima: {
+        name: '데지마',
+        emoji: '🏛️',
+        spots: [
+          { name: '데지마 와하란', rating: 4.8, specialty: '네덜란드 상관' },
+          { name: '역사 박물관', rating: 4.7, specialty: '국제 교류사' },
+          { name: '옛 거리 재현', rating: 4.6, specialty: '에도 시대 거리' }
+        ]
+      }
     }
   },
   sasebo: {
@@ -170,6 +286,35 @@ export const kyushuData = {
           { name: '규슈 굴집', rating: 4.7, specialty: '구이 굴' },
           { name: '바다의 집', rating: 4.6, specialty: '굴 라멘' },
           { name: '굴 전문점', rating: 4.5, specialty: '굴 프라이' }
+        ]
+      }
+    },
+    hotplaces: {
+      kujukushima: {
+        name: '구주쿠시마',
+        emoji: '🏝️',
+        spots: [
+          { name: '구주쿠시마 수족관', rating: 4.8, specialty: '해양 생물' },
+          { name: '유람선 크루즈', rating: 4.7, specialty: '섬 투어' },
+          { name: '전망대', rating: 4.6, specialty: '99개 섬 조망' }
+        ]
+      },
+      sasebo_navy: {
+        name: '사세보 해군',
+        emoji: '⚓',
+        spots: [
+          { name: '해상자위대 기지', rating: 4.6, specialty: '해군 역사' },
+          { name: '마린 파크', rating: 4.5, specialty: '해안 공원' },
+          { name: '포트 사이드', rating: 4.4, specialty: '항구 구경' }
+        ]
+      },
+      huis_ten_bosch: {
+        name: '하우스텐보스',
+        emoji: '🎡',
+        spots: [
+          { name: '하우스텐보스 궁전', rating: 4.9, specialty: '네덜란드 테마파크' },
+          { name: '일루미네이션', rating: 4.8, specialty: '야간 조명쇼' },
+          { name: '꽃 정원', rating: 4.7, specialty: '계절 꽃축제' }
         ]
       }
     }
@@ -240,6 +385,35 @@ export const kyushuData = {
           { name: '규동야', rating: 4.8, specialty: '사가규 덮밥' },
           { name: '돈부리 하우스', rating: 4.7, specialty: '특제 가규동' },
           { name: '미소시루야', rating: 4.6, specialty: '가규동 정식' }
+        ]
+      }
+    },
+    hotplaces: {
+      beppu_onsen: {
+        name: '별부 온천',
+        emoji: '♨️',
+        spots: [
+          { name: '지고쿠 온천 순례', rating: 4.9, specialty: '8개 지옥 온천' },
+          { name: '별부 타워', rating: 4.7, specialty: '온천가 전망' },
+          { name: '우미지고쿠', rating: 4.8, specialty: '바다 지옥' }
+        ]
+      },
+      yufuin: {
+        name: '유후인',
+        emoji: '🏔️',
+        spots: [
+          { name: '유후다케 산', rating: 4.8, specialty: '산 전망대' },
+          { name: '유노츠보 거리', rating: 4.7, specialty: '온천가 쇼핑' },
+          { name: '킨린코 호수', rating: 4.6, specialty: '신비로운 호수' }
+        ]
+      },
+      usuki: {
+        name: '우스키 석불',
+        emoji: '🗿',
+        spots: [
+          { name: '우스키 마애불', rating: 4.8, specialty: '국보 석불군' },
+          { name: '혼잔지', rating: 4.6, specialty: '역사적 사찰' },
+          { name: '우스키 성터', rating: 4.5, specialty: '성곽 유적' }
         ]
       }
     }

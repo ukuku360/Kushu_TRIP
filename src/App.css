@@ -252,6 +252,98 @@
   box-shadow: 0 10px 30px rgba(100, 181, 246, 0.2);
 }
 
+.restaurant-card.clickable {
+  cursor: pointer;
+}
+
+.restaurant-card.clickable:hover {
+  border-left-color: var(--ghibli-green);
+  box-shadow: 0 12px 35px rgba(129, 199, 132, 0.3);
+}
+
+.maps-icon {
+  font-size: 1.5rem;
+  color: var(--ghibli-blue);
+  margin-left: 15px;
+  transition: all 0.3s ease;
+}
+
+.restaurant-card.clickable:hover .maps-icon {
+  color: var(--ghibli-green);
+  transform: scale(1.1);
+}
+
+/* Loading and Error States */
+.loading-container {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  border-radius: 15px;
+  border: 2px solid #ef5350;
+  margin: 20px 0;
+}
+
+.error-container p {
+  color: #c62828;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.retry-button {
+  background: linear-gradient(135deg, #ef5350, #d32f2f);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 83, 80, 0.4);
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  border-radius: 15px;
+  border: 2px solid #ffc107;
+  margin: 20px 0;
+}
+
+.no-results p {
+  color: #f57c00;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.ratings-count {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-left: 5px;
+}
+
+.restaurant-address {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
 .restaurant-rank {
   font-size: 2rem;
   font-weight: 700;

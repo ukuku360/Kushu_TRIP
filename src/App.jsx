@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { kyushuData, transportData } from './data/kyushuData'
+import { searchRestaurants, generateGoogleMapsUrl as generateMapsUrl } from './utils/mockRestaurantAPI'
+import { searchHotplaces, generateGoogleMapsUrl as generateHotplaceMapsUrl } from './utils/mockHotplaceAPI'
 import './App.css'
 
 function App() {
   const [selectedCity, setSelectedCity] = useState(null)
   const [selectedFood, setSelectedFood] = useState(null)
+  const [selectedHotplace, setSelectedHotplace] = useState(null)
   const [hoveredCity, setHoveredCity] = useState(null)
   const [selectedCities, setSelectedCities] = useState([])
   const [showTransport, setShowTransport] = useState(false)
   const [selectedTransport, setSelectedTransport] = useState(null)
   const [mode, setMode] = useState('food')
+  const [restaurants, setRestaurants] = useState([])
+  const [hotplaces, setHotplaces] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadingError, setLoadingError] = useState(null)
 
   const connections = [
     { from: 'fukuoka', to: 'saga' },
@@ -25,7 +32,7 @@ function App() {
   ]
 
   const handleCityClick = (cityId) => {
-    if (mode === 'food') {
+    if (mode === 'food' || mode === 'hotplace') {
       setSelectedCity(cityId)
     } else {
       if (selectedCities.length === 0) {
@@ -43,13 +50,42 @@ function App() {
     }
   }
 
-  const handleFoodClick = (foodKey) => {
+  const handleFoodClick = async (foodKey) => {
     setSelectedFood(foodKey)
+    setIsLoading(true)
+    setLoadingError(null)
+    
+    try {
+      const restaurantData = await searchRestaurants(selectedCity, foodKey)
+      setRestaurants(restaurantData)
+    } catch (error) {
+      console.error('Failed to fetch restaurants:', error)
+      setLoadingError('맛집 정보를 불러오는데 실패했습니다.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleHotplaceClick = async (hotplaceKey) => {
+    setSelectedHotplace(hotplaceKey)
+    setIsLoading(true)
+    setLoadingError(null)
+    
+    try {
+      const hotplaceData = await searchHotplaces(selectedCity, hotplaceKey)
+      setHotplaces(hotplaceData)
+    } catch (error) {
+      console.error('Failed to fetch hotplaces:', error)
+      setLoadingError('핫플 정보를 불러오는데 실패했습니다.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleBackToMap = () => {
     setSelectedCity(null)
     setSelectedFood(null)
+    setSelectedHotplace(null)
     setSelectedCities([])
     setShowTransport(false)
     setSelectedTransport(null)
@@ -57,6 +93,16 @@ function App() {
 
   const handleBackToFoods = () => {
     setSelectedFood(null)
+    setRestaurants([])
+    setIsLoading(false)
+    setLoadingError(null)
+  }
+
+  const handleBackToHotplaces = () => {
+    setSelectedHotplace(null)
+    setHotplaces([])
+    setIsLoading(false)
+    setLoadingError(null)
   }
 
   const handleTransportSelect = (option) => {
@@ -71,6 +117,7 @@ function App() {
     setMode(newMode)
     setSelectedCity(null)
     setSelectedFood(null)
+    setSelectedHotplace(null)
     setSelectedCities([])
     setShowTransport(false)
     setSelectedTransport(null)
@@ -109,6 +156,8 @@ function App() {
     return null
   }
 
+
+
   return (
     <div className="app">
       <motion.header 
@@ -146,6 +195,14 @@ function App() {
                     🍜 맛집
                   </motion.button>
                   <motion.button
+                    className={`toggle-button ${mode === 'hotplace' ? 'active' : ''}`}
+                    onClick={() => handleModeChange('hotplace')}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    📍 핫플
+                  </motion.button>
+                  <motion.button
                     className={`toggle-button ${mode === 'transport' ? 'active' : ''}`}
                     onClick={() => handleModeChange('transport')}
                     whileHover={{ scale: 1.05 }}
@@ -159,6 +216,8 @@ function App() {
               <p className="section-description">
                 {mode === 'food' 
                   ? '맛집을 찾고 싶은 도시를 클릭해보세요!' 
+                  : mode === 'hotplace'
+                  ? '핫플레이스를 찾고 싶은 도시를 클릭해보세요!'
                   : '교통수단을 찾기 위해 출발지와 도착지를 선택해보세요!'
                 }
               </p>
@@ -512,7 +571,7 @@ function App() {
             </motion.div>
           )}
 
-          {selectedCity && !selectedFood && (
+          {selectedCity && !selectedFood && !selectedHotplace && mode === 'food' && (
             <motion.div
               key="foods"
               className="foods-container"
@@ -548,6 +607,42 @@ function App() {
             </motion.div>
           )}
 
+          {selectedCity && !selectedFood && !selectedHotplace && mode === 'hotplace' && (
+            <motion.div
+              key="hotplaces"
+              className="foods-container"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <button className="back-button" onClick={handleBackToMap}>
+                ← 지도로 돌아가기
+              </button>
+              
+              <h2 className="section-title">{kyushuData[selectedCity].name}의 핫플레이스</h2>
+              <p className="section-description">인기 관광지를 선택해보세요!</p>
+              
+              <div className="foods-grid">
+                {Object.entries(kyushuData[selectedCity].hotplaces).map(([hotplaceKey, hotplace], index) => (
+                  <motion.div
+                    key={hotplaceKey}
+                    className="food-card"
+                    onClick={() => handleHotplaceClick(hotplaceKey)}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.5 }}
+                    whileHover={{ scale: 1.05, rotate: 1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="food-emoji">{hotplace.emoji}</div>
+                    <h3 className="food-name">{hotplace.name}</h3>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {selectedFood && (
             <motion.div
               key="restaurants"
@@ -564,29 +659,165 @@ function App() {
               <h2 className="section-title">
                 {kyushuData[selectedCity].foods[selectedFood].name} 맛집 TOP 3
               </h2>
-              <p className="section-description">현지인이 추천하는 최고의 맛집!</p>
+              <p className="section-description">실시간 구글맵 데이터로 찾은 최고의 맛집!</p>
               
-              <div className="restaurants-list">
-                {kyushuData[selectedCity].foods[selectedFood].restaurants.map((restaurant, index) => (
-                  <motion.div
-                    key={index}
-                    className="restaurant-card"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.2, duration: 0.5 }}
-                    whileHover={{ scale: 1.02, boxShadow: "0 8px 25px rgba(0,0,0,0.15)" }}
+              {/* 로딩 상태 */}
+              {isLoading && (
+                <div className="loading-container">
+                  <motion.div 
+                    className="loading-spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   >
-                    <div className="restaurant-rank">#{index + 1}</div>
-                    <div className="restaurant-info">
-                      <h3 className="restaurant-name">{restaurant.name}</h3>
-                      <p className="restaurant-specialty">{restaurant.specialty}</p>
-                      <div className="restaurant-rating">
-                        ⭐ {restaurant.rating} / 5.0
-                      </div>
-                    </div>
+                    🍜
                   </motion.div>
-                ))}
-              </div>
+                  <p>맛집을 찾고 있습니다...</p>
+                </div>
+              )}
+              
+              {/* 에러 상태 */}
+              {loadingError && (
+                <div className="error-container">
+                  <p>❌ {loadingError}</p>
+                  <button 
+                    className="retry-button"
+                    onClick={() => handleFoodClick(selectedFood)}
+                  >
+                    다시 시도
+                  </button>
+                </div>
+              )}
+              
+              {/* 맛집 목록 */}
+              {!isLoading && !loadingError && restaurants.length > 0 && (
+                <div className="restaurants-list">
+                  {restaurants.map((restaurant, index) => (
+                    <motion.div
+                      key={restaurant.place_id || index}
+                      className="restaurant-card clickable"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
+                      whileHover={{ scale: 1.02, boxShadow: "0 8px 25px rgba(0,0,0,0.15)" }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => window.open(generateMapsUrl(restaurant, kyushuData[selectedCity].name), '_blank')}
+                    >
+                      <div className="restaurant-rank">#{index + 1}</div>
+                      <div className="restaurant-info">
+                        <h3 className="restaurant-name">{restaurant.name}</h3>
+                        <p className="restaurant-specialty">{restaurant.specialty}</p>
+                        <div className="restaurant-rating">
+                          ⭐ {restaurant.rating ? restaurant.rating.toFixed(1) : 'N/A'} / 5.0
+                          {restaurant.user_ratings_total && (
+                            <span className="ratings-count">({restaurant.user_ratings_total})</span>
+                          )}
+                        </div>
+                        {restaurant.address && (
+                          <p className="restaurant-address">📍 {restaurant.address}</p>
+                        )}
+                      </div>
+                      <div className="maps-icon">🗺️</div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+              
+                             {/* 검색 결과 없음 */}
+               {!isLoading && !loadingError && restaurants.length === 0 && selectedFood && (
+                 <div className="no-results">
+                   <p>😅 해당 음식의 맛집을 찾을 수 없습니다.</p>
+                   <p>다른 음식을 선택해보세요!</p>
+                 </div>
+               )}
+            </motion.div>
+          )}
+
+          {selectedHotplace && (
+            <motion.div
+              key="hotplace-spots"
+              className="restaurants-container"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <button className="back-button" onClick={handleBackToHotplaces}>
+                ← 핫플레이스 목록으로 돌아가기
+              </button>
+              
+              <h2 className="section-title">
+                {kyushuData[selectedCity].hotplaces[selectedHotplace].name} 추천 스팟 TOP 3
+              </h2>
+              <p className="section-description">실시간 구글맵 데이터로 찾은 최고의 관광지!</p>
+              
+              {/* 로딩 상태 */}
+              {isLoading && (
+                <div className="loading-container">
+                  <motion.div 
+                    className="loading-spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    📍
+                  </motion.div>
+                  <p>핫플레이스를 찾고 있습니다...</p>
+                </div>
+              )}
+              
+              {/* 에러 상태 */}
+              {loadingError && (
+                <div className="error-container">
+                  <p>❌ {loadingError}</p>
+                  <button 
+                    className="retry-button"
+                    onClick={() => handleHotplaceClick(selectedHotplace)}
+                  >
+                    다시 시도
+                  </button>
+                </div>
+              )}
+              
+              {/* 핫플레이스 목록 */}
+              {!isLoading && !loadingError && hotplaces.length > 0 && (
+                <div className="restaurants-list">
+                  {hotplaces.map((hotplace, index) => (
+                    <motion.div
+                      key={hotplace.place_id || index}
+                      className="restaurant-card clickable"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
+                      whileHover={{ scale: 1.02, boxShadow: "0 8px 25px rgba(0,0,0,0.15)" }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => window.open(generateHotplaceMapsUrl(hotplace, kyushuData[selectedCity].name), '_blank')}
+                    >
+                      <div className="restaurant-rank">#{index + 1}</div>
+                      <div className="restaurant-info">
+                        <h3 className="restaurant-name">{hotplace.name}</h3>
+                        <p className="restaurant-specialty">{hotplace.specialty}</p>
+                        <div className="restaurant-rating">
+                          ⭐ {hotplace.rating ? hotplace.rating.toFixed(1) : 'N/A'} / 5.0
+                          {hotplace.user_ratings_total && (
+                            <span className="ratings-count">({hotplace.user_ratings_total})</span>
+                          )}
+                        </div>
+                        {hotplace.address && (
+                          <p className="restaurant-address">📍 {hotplace.address}</p>
+                        )}
+                      </div>
+                      <div className="maps-icon">🗺️</div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+              
+              {/* 검색 결과 없음 */}
+              {!isLoading && !loadingError && hotplaces.length === 0 && selectedHotplace && (
+                <div className="no-results">
+                  <p>😅 해당 핫플레이스를 찾을 수 없습니다.</p>
+                  <p>다른 관광지를 선택해보세요!</p>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
