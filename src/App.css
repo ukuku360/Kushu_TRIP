@@ -778,4 +778,960 @@
     margin-right: 0;
     margin-bottom: 10px;
   }
+}
+
+/* 에러 바운더리 스타일 */
+.error-boundary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.error-boundary-content {
+  text-align: center;
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.error-boundary-content h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.error-boundary-content p {
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.error-details {
+  text-align: left;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.error-info {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #495057;
+  white-space: pre-wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-reset-button,
+.error-home-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error-reset-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.error-reset-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.error-home-button {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.error-home-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+}
+
+/* 타입 체크 관련 스타일 */
+.validation-info {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* 리뷰 요약 섹션 스타일 */
+.review-summary {
+  margin-top: 15px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.review-summary.loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.scraped-rating {
+  font-weight: bold;
+  color: #f39c12;
+}
+
+.review-count {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.review-sources {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.source-badge {
+  background: #e9ecef;
+  border-radius: 12px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.review-sentiment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.llm-badge {
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-content {
+  color: #333;
+}
+
+.review-text {
+  margin: 0 0 10px 0;
+  color: #495057;
+}
+
+.detailed-review {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #dee2e6;
+}
+
+.review-section {
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+  color: #495057;
+}
+
+.review-list {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 13px;
+}
+
+.review-list li {
+  margin-bottom: 4px;
+  color: #6c757d;
+}
+
+.review-meta {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #dee2e6;
+}
+
+.review-meta small {
+  color: #6c757d;
+  font-size: 11px;
+}
+
+.review-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.keyword-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid #bbdefb;
+}
+
+.expand-toggle {
+  background: none;
+  border: 1px solid #dee2e6;
+  color: #6c757d;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.expand-toggle:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+/* 레스토랑 카드 호버 시 리뷰 요약 하이라이트 */
+.restaurant-card:hover .review-summary {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left-color: #2196f3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .review-summary {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 0.85em;
+  }
+  
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .review-keywords {
+    gap: 3px;
+  }
+  
+  .keyword-tag {
+    font-size: 0.7em;
+    padding: 1px 4px;
+  }
+}
+
+/* 다크모드 대응 */
+@media (prefers-color-scheme: dark) {
+  .review-summary {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    border-left-color: #63b3ed;
+    color: #e2e8f0;
+  }
+  
+  .review-summary-text {
+    color: #cbd5e0;
+  }
+  
+  .scraped-rating {
+    color: #63b3ed;
+  }
+  
+  .keyword-tag {
+    background: #2b6cb0;
+    color: #bee3f8;
+    border-color: #3182ce;
+  }
+  
+  .keyword-tag:hover {
+    background: #3182ce;
+    color: white;
+  }
+  
+  .expand-button {
+    color: #63b3ed;
+  }
+  
+  .expand-button:hover {
+    color: #90cdf4;
+  }
+}
+
+/* 애니메이션 효과 */
+.review-summary {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 로딩 상태 스켈레톤 효과 */
+.review-summary.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* 기존 리뷰 요약 섹션 스타일 */
+.review-summary {
+  margin: 12px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border-left: 3px solid #007bff;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.review-summary.loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scraped-rating {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.review-count {
+  font-size: 0.85em;
+  color: #6c757d;
+}
+
+.review-sentiment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.llm-badge {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.review-content {
+  line-height: 1.4;
+}
+
+.review-text {
+  margin: 8px 0;
+  color: #495057;
+}
+
+/* LLM 요약 상세 정보 */
+.detailed-review {
+  margin: 12px 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.review-section {
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 0.85em;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: #495057;
+}
+
+.review-list {
+  margin: 0;
+  padding-left: 16px;
+  list-style-type: disc;
+}
+
+.review-list li {
+  margin: 3px 0;
+  font-size: 0.85em;
+  color: #6c757d;
+}
+
+.expand-toggle {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 0.8em;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-top: 8px;
+  transition: color 0.2s ease;
+}
+
+.expand-toggle:hover {
+  color: #0056b3;
+}
+
+.review-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.keyword-tag {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color: #495057;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.75em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 리뷰 요약 모달 스타일 */
+.review-summary-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.review-modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid #eee;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.loading-content {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.loading-content .loading-spinner {
+  font-size: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+/* Restaurant Actions 스타일 */
+.restaurant-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.review-button {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+}
+
+.review-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+}
+
+.review-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.review-button.loading {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+}
+
+.maps-button {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.maps-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* 리뷰 요약 내용 스타일 */
+.review-summary {
+  padding: 20px 24px;
+  border-left: 4px solid #28a745;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.review-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scraped-rating {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f39c12;
+}
+
+.review-count {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.review-source {
+  display: flex;
+  gap: 6px;
+}
+
+.source-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.review-sentiment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.llm-badge {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.review-content .review-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 16px;
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+}
+
+.detailed-review {
+  margin: 16px 0;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.review-section {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.review-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.review-list li {
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.review-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.keyword-tag {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.expand-toggle {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.expand-toggle:hover {
+  background: #e9ecef;
+  transform: translateY(-1px);
+}
+
+/* 개별 리뷰 목록 스타일 */
+.individual-reviews {
+  border-top: 1px solid #eee;
+  padding: 20px 24px;
+  background: #fafafa;
+}
+
+.individual-reviews h4 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.individual-review {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #ddd;
+}
+
+.individual-review .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.individual-review .author {
+  font-weight: 600;
+  color: #333;
+}
+
+.individual-review .rating {
+  color: #f39c12;
+}
+
+.individual-review .time {
+  color: #666;
+}
+
+.individual-review .review-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #555;
+  margin: 0;
+}
+
+.review-meta {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.review-meta small {
+  color: #999;
+  font-size: 0.75rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .review-modal-content {
+    max-width: 95vw;
+    max-height: 95vh;
+    margin: 10px;
+  }
+  
+  .modal-header {
+    padding: 16px 20px 10px;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .review-summary {
+    padding: 16px 20px;
+  }
+  
+  .restaurant-actions {
+    flex-direction: column;
+  }
+  
+  .review-button {
+    font-size: 0.85rem;
+    padding: 12px 16px;
+  }
+}
+
+/* 애니메이션 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Restaurant Card 개선 */
+.restaurant-card {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.restaurant-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.restaurant-rank {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  min-width: 80px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.restaurant-main {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.restaurant-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.restaurant-address {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.restaurant-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.rating-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rating-number {
+  font-weight: 600;
+  color: #f39c12;
+}
+
+.rating-count {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.price-level .price-symbol {
+  font-size: 1.1rem;
 } 

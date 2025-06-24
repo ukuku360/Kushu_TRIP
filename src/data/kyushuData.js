@@ -389,6 +389,70 @@ export const kyushuData = {
       }
     },
     hotplaces: {
+      yoshinogari: {
+        name: '요시노가리 유적',
+        emoji: '🏛️',
+        spots: [
+          { name: '요시노가리 역사공원', rating: 4.8, specialty: '야요이 시대 유적' },
+          { name: '고대 마을 복원지', rating: 4.7, specialty: '역사 체험' },
+          { name: '박물관', rating: 4.6, specialty: '고고학 자료' }
+        ]
+      },
+      arita: {
+        name: '아리타 도자기마을',
+        emoji: '🏺',
+        spots: [
+          { name: '아리타 도자기관', rating: 4.8, specialty: '전통 도자기' },
+          { name: '도자기 공방거리', rating: 4.7, specialty: '수제 도자기' },
+          { name: '토야마 신사', rating: 4.6, specialty: '도자기 신사' }
+        ]
+      },
+      karatsu: {
+        name: '가라츠성',
+        emoji: '🏯',
+        spots: [
+          { name: '가라츠성', rating: 4.8, specialty: '해안가 성곽' },
+          { name: '마츠바라 해변', rating: 4.7, specialty: '소나무 해변' },
+          { name: '구묘진 해변', rating: 4.6, specialty: '해수욕장' }
+        ]
+      }
+    }
+  },
+  oita: {
+    id: 'oita',
+    name: '오이타',
+    position: { x: 280, y: 200 },
+    color: '#ffd93d',
+    foods: {
+      bungo_beef: {
+        name: '분고규',
+        emoji: '🥩',
+        restaurants: [
+          { name: '분고규 명가', rating: 4.9, specialty: '최고급 분고규' },
+          { name: '오이타 스테이크', rating: 4.8, specialty: '분고규 스테이크' },
+          { name: '규우나베 전문점', rating: 4.7, specialty: '소고기 전골' }
+        ]
+      },
+      jigoku_mushi: {
+        name: '지옥찜',
+        emoji: '♨️',
+        restaurants: [
+          { name: '지옥찜 공방', rating: 4.8, specialty: '온천 지열 요리' },
+          { name: '별부 지옥찜', rating: 4.7, specialty: '전통 지열 요리' },
+          { name: '온천 요리집', rating: 4.6, specialty: '지열 조리법' }
+        ]
+      },
+      dango: {
+        name: '단고',
+        emoji: '🍡',
+        restaurants: [
+          { name: '야키단고 명가', rating: 4.7, specialty: '구운 단고' },
+          { name: '오이타 단고집', rating: 4.6, specialty: '수제 단고' },
+          { name: '전통 과자점', rating: 4.5, specialty: '단고 전문' }
+        ]
+      }
+    },
+    hotplaces: {
       beppu_onsen: {
         name: '별부 온천',
         emoji: '♨️',

@@ -1,3 +1,6 @@
+import apiUsageTracker from '../services/apiUsageTracker.js';
+import apiClient from './apiClient.js'
+
 // Google Places API 설정
 const GOOGLE_PLACES_API_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY || 'YOUR_API_KEY_HERE';
 
@@ -33,112 +36,183 @@ const FOOD_SEARCH_TERMS = {
   dango: ['경단', '団子', 'dango']
 };
 
-// Google Places API로 맛집 검색
-export const searchRestaurants = async (cityId, foodType) => {
-  try {
-    const coordinates = CITY_COORDINATES[cityId];
-    const searchTerms = FOOD_SEARCH_TERMS[foodType];
+class GooglePlacesService {
+  constructor() {
+    this.apiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
+    this.baseUrl = 'https://maps.googleapis.com/maps/api/place';
     
-    if (!coordinates || !searchTerms) {
-      throw new Error('Invalid city or food type');
+    if (!this.apiKey) {
+      console.warn('⚠️ Google Places API 키가 설정되지 않았습니다.');
+    }
+  }
+
+  // 텍스트 검색으로 식당 찾기
+  async searchRestaurants(query, location = '') {
+    if (!this.apiKey) {
+      throw new Error('Google Places API 키가 필요합니다.');
     }
 
-    // 여러 검색어로 병렬 검색
-    const searchPromises = searchTerms.map(term => 
-      fetchPlacesForTerm(coordinates, term)
-    );
-    
-    const results = await Promise.all(searchPromises);
-    const allRestaurants = results.flat();
-    
-    // 중복 제거 (place_id 기준)
-    const uniqueRestaurants = removeDuplicates(allRestaurants);
-    
-    // 평점 순으로 정렬하고 상위 3개 선택
-    const topRestaurants = uniqueRestaurants
-      .filter(restaurant => restaurant.rating && restaurant.rating > 0)
-      .sort((a, b) => b.rating - a.rating)
-      .slice(0, 3);
-    
-    return topRestaurants.map((restaurant, index) => ({
-      name: restaurant.name,
-      rating: restaurant.rating,
-      specialty: restaurant.types?.[0]?.replace(/_/g, ' ') || '맛집',
-      address: restaurant.formatted_address,
-      place_id: restaurant.place_id,
-      photos: restaurant.photos,
-      user_ratings_total: restaurant.user_ratings_total
-    }));
-    
-  } catch (error) {
-    console.error('Error searching restaurants:', error);
-    // 에러 시 fallback 데이터 반환
-    return getFallbackRestaurants(foodType);
-  }
-};
+    try {
+      console.log(`🔍 Google Places API로 검색: ${query} ${location}`);
+      
+      const searchQuery = `${query} restaurant ${location} Japan`;
+      const response = await fetch(
+        `${this.baseUrl}/textsearch/json?query=${encodeURIComponent(searchQuery)}&key=${this.apiKey}&language=ko&type=restaurant`
+      );
 
-// 특정 검색어로 장소 검색
-const fetchPlacesForTerm = async (coordinates, searchTerm) => {
-  const { lat, lng } = coordinates;
-  const radius = 5000; // 5km 반경
-  
-  const params = new URLSearchParams({
-    key: GOOGLE_PLACES_API_KEY,
-    location: `${lat},${lng}`,
-    radius: radius,
-    keyword: searchTerm,
-    type: 'restaurant',
-    language: 'ko'
-  });
-  
-  const response = await fetch(
-    `https://maps.googleapis.com/maps/api/place/nearbysearch/json?${params}`
-  );
-  
-  if (!response.ok) {
-    throw new Error(`API request failed: ${response.status}`);
-  }
-  
-  const data = await response.json();
-  return data.results || [];
-};
+      if (!response.ok) {
+        throw new Error(`Google Places API 오류: ${response.status}`);
+      }
 
-// 중복 제거 함수
-const removeDuplicates = (restaurants) => {
-  const seen = new Set();
-  return restaurants.filter(restaurant => {
-    if (seen.has(restaurant.place_id)) {
-      return false;
+      const data = await response.json();
+      
+      if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
+        throw new Error(`Google Places API 오류: ${data.status} - ${data.error_message || '알 수 없는 오류'}`);
+      }
+
+      const restaurants = data.results?.map(place => ({
+        name: place.name,
+        rating: place.rating || 0,
+        specialty: place.types?.join(', ') || '',
+        address: place.formatted_address || '',
+        place_id: place.place_id,
+        user_ratings_total: place.user_ratings_total || 0,
+        price_level: place.price_level || null,
+        opening_hours: place.opening_hours || null,
+        photos: place.photos?.map(photo => ({
+          photo_reference: photo.photo_reference,
+          width: photo.width,
+          height: photo.height
+        })) || [],
+        coordinates: place.geometry?.location || null
+      })) || [];
+
+      console.log(`✅ Google Places API에서 ${restaurants.length}개 식당 검색 완료`);
+      return restaurants;
+      
+    } catch (error) {
+      console.error('❌ Google Places API 검색 실패:', error);
+      throw error;
     }
-    seen.add(restaurant.place_id);
-    return true;
-  });
+  }
+
+  // 장소 상세 정보 가져오기
+  async getPlaceDetails(placeId) {
+    if (!this.apiKey) {
+      throw new Error('Google Places API 키가 필요합니다.');
+    }
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/details/json?place_id=${placeId}&key=${this.apiKey}&language=ko&fields=name,rating,formatted_address,formatted_phone_number,opening_hours,reviews,photos,price_level,user_ratings_total,website`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Google Places API 오류: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.status !== 'OK') {
+        throw new Error(`Google Places API 오류: ${data.status}`);
+      }
+
+      return data.result;
+      
+    } catch (error) {
+      console.error('❌ 장소 상세 정보 조회 실패:', error);
+      throw error;
+    }
+  }
+
+  // 리뷰 가져오기
+  async getPlaceReviews(placeId) {
+    try {
+      const details = await this.getPlaceDetails(placeId);
+      
+      return details.reviews?.map(review => ({
+        text: review.text,
+        rating: review.rating,
+        author: review.author_name,
+        time: review.relative_time_description,
+        source: 'google_places_api'
+      })) || [];
+      
+    } catch (error) {
+      console.error('❌ 리뷰 조회 실패:', error);
+      return [];
+    }
+  }
+
+  // 사진 URL 생성
+  getPhotoUrl(photoReference, maxWidth = 400) {
+    if (!this.apiKey || !photoReference) return null;
+    
+    return `${this.baseUrl}/photo?photoreference=${photoReference}&maxwidth=${maxWidth}&key=${this.apiKey}`;
+  }
+
+  // 지역별 검색어 매핑
+  getCitySearchTerms(cityId) {
+    const cityTerms = {
+      fukuoka: 'Fukuoka Hakata',
+      kumamoto: 'Kumamoto',
+      nagasaki: 'Nagasaki',
+      sasebo: 'Sasebo Nagasaki',
+      oita: 'Oita Beppu',
+      saga: 'Saga Karatsu'
+    };
+    
+    return cityTerms[cityId] || cityId;
+  }
+
+  // 음식 종류별 검색어 매핑
+  getFoodSearchTerms(foodType) {
+    const foodTerms = {
+      ramen: 'ramen noodle',
+      mentaiko: 'mentaiko pollock roe',
+      motsunabe: 'motsunabe hotpot',
+      yakitori: 'yakitori grilled chicken',
+      udon: 'udon noodle',
+      basashi: 'basashi horse sashimi',
+      tonkotsu: 'tonkotsu ramen',
+      karashi: 'karashi renkon lotus root',
+      champon: 'champon noodle',
+      sara_udon: 'sara udon',
+      kasutera: 'kasutera sponge cake',
+      burger: 'sasebo burger',
+      kujira: 'whale meat',
+      oyster: 'oyster',
+      bungo_beef: 'bungo beef',
+      jigoku_mushi: 'jigoku mushi steam cooking',
+      dango: 'dango dumpling',
+      saga_beef: 'saga beef',
+      yobuko_squid: 'yobuko squid',
+      gagyudon: 'beef bowl'
+    };
+    
+    return foodTerms[foodType] || foodType;
+  }
+}
+
+// 싱글톤 인스턴스
+const googlePlacesService = new GooglePlacesService();
+
+export default googlePlacesService;
+
+// 기존 함수들과의 호환성을 위한 래퍼 함수들
+export const searchRestaurants = async (query, location = '') => {
+  return await googlePlacesService.searchRestaurants(query, location);
 };
 
-// API 에러 시 fallback 데이터
-const getFallbackRestaurants = (foodType) => [
-  { 
-    name: '맛집 검색 중...', 
-    rating: 0.0, 
-    specialty: '잠시만 기다려주세요',
-    address: '검색 중...',
-    place_id: null
-  },
-  { 
-    name: 'API 키가 필요합니다', 
-    rating: 0.0, 
-    specialty: 'Google Places API 설정 필요',
-    address: '.env.local 파일에 VITE_GOOGLE_PLACES_API_KEY 추가',
-    place_id: null
-  },
-  { 
-    name: '수동 검색을 이용해주세요', 
-    rating: 0.0, 
-    specialty: '구글맵에서 직접 검색해보세요',
-    address: '죄송합니다',
-    place_id: null
-  }
-];
+export const getPlaceReviews = async (placeId) => {
+  return await googlePlacesService.getPlaceReviews(placeId);
+};
+
+export const scrapeAdditionalReviews = async (restaurantName, cityName) => {
+  // 추가 리뷰 스크래핑은 별도 서비스에서 처리
+  console.log(`📝 추가 리뷰 스크래핑: ${restaurantName} in ${cityName}`);
+  return [];
+};
 
 // 구글맵 URL 생성 (place_id 우선, 없으면 검색)
 export const generateGoogleMapsUrl = (restaurant, cityName) => {
