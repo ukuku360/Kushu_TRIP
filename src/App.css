@@ -21,7 +21,7 @@
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 2rem; 
   font-weight: 700;
   background: linear-gradient(45deg, var(--ghibli-green), var(--ghibli-blue));
   -webkit-background-clip: text;
@@ -236,41 +236,359 @@
   margin-top: 20px;
 }
 
+/* Restaurant Card 스타일 */
 .restaurant-card {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #ffffff, var(--ghibli-sky));
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   transition: all 0.3s ease;
-  border-left: 5px solid var(--ghibli-blue);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 .restaurant-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(100, 181, 246, 0.2);
 }
 
-.restaurant-card.clickable {
+.restaurant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1rem;
+}
+
+.restaurant-name-section {
+  flex: 1;
+}
+
+.rank-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.restaurant-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0.3rem 0;
+  line-height: 1.4;
+}
+
+.rank-info {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.restaurant-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 1rem;
+}
+
+.rating-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #f39c12;
+}
+
+.rating-stars {
+  font-size: 0.9rem;
+}
+
+.rating-stars .star {
+  margin-right: 0.1rem;
+}
+
+.rating-stars .star.filled {
+  opacity: 1;
+}
+
+.rating-stars .star:not(.filled) {
+  opacity: 0.3;
+}
+
+.rating-count {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-left: 0.2rem;
+}
+
+.no-rating {
+  font-size: 0.85rem;
+  color: #bdc3c7;
+}
+
+.restaurant-main {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+.restaurant-info {
+  margin-bottom: 1rem;
+}
+
+.restaurant-address {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.restaurant-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.8rem 0;
+}
+
+.price-level {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.opening-status {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.opening-status.open {
+  background-color: #d5f4e6;
+  color: #27ae60;
+}
+
+.opening-status.closed {
+  background-color: #ffeaa7;
+  color: #d63031;
+}
+
+.restaurant-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.action-button, .review-button {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
-.restaurant-card.clickable:hover {
-  border-left-color: var(--ghibli-green);
-  box-shadow: 0 12px 35px rgba(129, 199, 132, 0.3);
+.action-button {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  color: white;
 }
 
-.maps-icon {
-  font-size: 1.5rem;
-  color: var(--ghibli-blue);
-  margin-left: 15px;
+.review-button {
+  background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+  color: white;
+}
+
+.action-button:hover, .review-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:disabled, .review-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.review-button.loading {
+  background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 심플한 리뷰 보기 버튼 */
+.review-button {
+  background: linear-gradient(135deg, var(--ghibli-blue), #64b5f6);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.restaurant-card.clickable:hover .maps-icon {
-  color: var(--ghibli-green);
-  transform: scale(1.1);
+.review-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
+}
+
+.review-button:active {
+  transform: translateY(0);
+}
+
+.review-button.loading {
+  background: linear-gradient(135deg, #a0aec0, #718096);
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 심플한 지도 버튼 */
+.maps-button {
+  background: linear-gradient(135deg, var(--ghibli-green), var(--ghibli-forest));
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 13px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(129, 199, 132, 0.3);
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.maps-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(129, 199, 132, 0.4);
+}
+
+.maps-button:active {
+  transform: translateY(0);
+}
+
+/* 모바일 반응형 개선 */
+@media (max-width: 768px) {
+  .restaurant-card {
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+  }
+  
+  .restaurant-main {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .restaurant-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .review-button, .maps-button {
+    flex: 1;
+    min-width: unset;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+  }
+  
+  .restaurant-rank {
+    width: auto;
+    height: auto;
+    font-size: 1.8rem;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+  }
+  
+  .restaurant-name {
+    font-size: 1.3rem;
+  }
+
+  .review-summary-modal {
+    margin: 10px;
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+  
+  .review-summary-header {
+    padding: 20px;
+  }
+  
+  .restaurant-title {
+    font-size: 1.5rem;
+  }
+  
+  .review-summary-content {
+    padding: 20px;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .ai-badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+  
+  .summary-section {
+    padding: 15px;
+  }
+  
+  .review-item {
+    padding: 15px;
+  }
 }
 
 /* Loading and Error States */
@@ -335,36 +653,6 @@
   font-size: 0.9rem;
   color: var(--text-light);
   margin-left: 5px;
-}
-
-.restaurant-address {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin: 8px 0 0 0;
-  font-style: italic;
-}
-
-.restaurant-rank {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--ghibli-blue);
-  margin-right: 25px;
-  min-width: 60px;
-  text-align: center;
-  background: rgba(100, 181, 246, 0.1);
-  border-radius: 15px;
-  padding: 10px;
-}
-
-.restaurant-info {
-  flex: 1;
-}
-
-.restaurant-name {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin: 0 0 8px 0;
 }
 
 .restaurant-specialty {
@@ -888,850 +1176,413 @@
   font-size: 0.9rem;
 }
 
-/* 리뷰 요약 섹션 스타일 */
-.review-summary {
-  margin-top: 15px;
-  padding: 12px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.review-summary.loading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #6c757d;
-  font-style: italic;
-}
-
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.review-rating {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.scraped-rating {
-  font-weight: bold;
-  color: #f39c12;
-}
-
-.review-count {
-  color: #6c757d;
-  font-size: 12px;
-}
-
-.review-sources {
-  display: flex;
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.source-badge {
-  background: #e9ecef;
-  border-radius: 12px;
-  padding: 2px 6px;
-  font-size: 11px;
-  color: #495057;
-  border: 1px solid #dee2e6;
-}
-
-.review-sentiment {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.llm-badge {
-  background: linear-gradient(135deg, #4285f4, #34a853);
-  color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.review-content {
-  color: #333;
-}
-
-.review-text {
-  margin: 0 0 10px 0;
-  color: #495057;
-}
-
-.detailed-review {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #dee2e6;
-}
-
-.review-section {
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: bold;
-  margin: 0 0 6px 0;
-  color: #495057;
-}
-
-.review-list {
-  margin: 0;
-  padding-left: 16px;
-  font-size: 13px;
-}
-
-.review-list li {
-  margin-bottom: 4px;
-  color: #6c757d;
-}
-
-.review-meta {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #dee2e6;
-}
-
-.review-meta small {
-  color: #6c757d;
-  font-size: 11px;
-}
-
-.review-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 10px 0;
-}
-
-.keyword-tag {
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 500;
-  border: 1px solid #bbdefb;
-}
-
-.expand-toggle {
-  background: none;
-  border: 1px solid #dee2e6;
-  color: #6c757d;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.2s ease;
-}
-
-.expand-toggle:hover {
-  background: #f8f9fa;
-  border-color: #adb5bd;
-}
-
-/* 레스토랑 카드 호버 시 리뷰 요약 하이라이트 */
-.restaurant-card:hover .review-summary {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  border-left-color: #2196f3;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
-}
-
-/* 모바일 대응 */
-@media (max-width: 768px) {
-  .review-summary {
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 0.85em;
-  }
-  
-  .review-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .review-keywords {
-    gap: 3px;
-  }
-  
-  .keyword-tag {
-    font-size: 0.7em;
-    padding: 1px 4px;
-  }
-}
-
-/* 다크모드 대응 */
-@media (prefers-color-scheme: dark) {
-  .review-summary {
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    border-left-color: #63b3ed;
-    color: #e2e8f0;
-  }
-  
-  .review-summary-text {
-    color: #cbd5e0;
-  }
-  
-  .scraped-rating {
-    color: #63b3ed;
-  }
-  
-  .keyword-tag {
-    background: #2b6cb0;
-    color: #bee3f8;
-    border-color: #3182ce;
-  }
-  
-  .keyword-tag:hover {
-    background: #3182ce;
-    color: white;
-  }
-  
-  .expand-button {
-    color: #63b3ed;
-  }
-  
-  .expand-button:hover {
-    color: #90cdf4;
-  }
-}
-
-/* 애니메이션 효과 */
-.review-summary {
-  animation: slideInUp 0.3s ease-out;
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 로딩 상태 스켈레톤 효과 */
-.review-summary.loading::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-/* 기존 리뷰 요약 섹션 스타일 */
-.review-summary {
-  margin: 12px 0;
-  padding: 12px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 8px;
-  border-left: 3px solid #007bff;
-  font-size: 0.9em;
-  transition: all 0.3s ease;
-}
-
-.review-summary.loading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
-  color: #6c757d;
-  font-style: italic;
-}
-
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.review-rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.scraped-rating {
-  font-weight: 600;
-  color: #007bff;
-}
-
-.review-count {
-  font-size: 0.85em;
-  color: #6c757d;
-}
-
-.review-sentiment {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.llm-badge {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 0.75em;
-  font-weight: 500;
-}
-
-.review-content {
-  line-height: 1.4;
-}
-
-.review-text {
-  margin: 8px 0;
-  color: #495057;
-}
-
-/* LLM 요약 상세 정보 */
-.detailed-review {
-  margin: 12px 0;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-}
-
-.review-section {
-  margin-bottom: 10px;
-}
-
-.section-title {
-  font-size: 0.85em;
-  font-weight: 600;
-  margin: 0 0 6px 0;
-  color: #495057;
-}
-
-.review-list {
-  margin: 0;
-  padding-left: 16px;
-  list-style-type: disc;
-}
-
-.review-list li {
-  margin: 3px 0;
-  font-size: 0.85em;
-  color: #6c757d;
-}
-
-.expand-toggle {
-  background: none;
-  border: none;
-  color: #007bff;
-  font-size: 0.8em;
-  cursor: pointer;
-  padding: 4px 0;
-  margin-top: 8px;
-  transition: color 0.2s ease;
-}
-
-.expand-toggle:hover {
-  color: #0056b3;
-}
-
-.review-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 8px;
-}
-
-.keyword-tag {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-  color: #495057;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-size: 0.75em;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* 리뷰 요약 모달 스타일 */
-.review-summary-modal {
+/* 심플하고 깔끔한 리뷰 요약 모달 */
+.review-summary-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
-  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
 }
 
-.review-modal-content {
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.review-summary-modal {
   background: white;
-  border-radius: 16px;
-  max-width: 90vw;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%;
   max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  font-family: 'Noto Sans KR', sans-serif;
+  position: relative;
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: scale(0.9) translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.review-summary-header {
+  background: linear-gradient(135deg, var(--ghibli-cream), #ffffff);
+  padding: 25px 30px;
+  border-bottom: 1px solid #e2e8f0;
   position: relative;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px 12px;
-  border-bottom: 1px solid #eee;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 16px 16px 0 0;
+.header-content {
+  padding-right: 50px;
 }
 
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
+.restaurant-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.restaurant-icon {
+  margin-right: 10px;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+
+.location-icon {
+  margin-right: 8px;
 }
 
 .close-button {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--ghibli-green);
   color: white;
-  width: 32px;
-  height: 32px;
+  border: none;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(129, 199, 132, 0.3);
 }
 
 .close-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg);
+  background: var(--ghibli-forest);
+  transform: scale(1.1);
 }
 
-.loading-content {
-  padding: 40px 24px;
-  text-align: center;
+.close-button span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
 }
 
-.loading-content .loading-spinner {
-  font-size: 2rem;
-  animation: spin 1s linear infinite;
+.review-summary-content {
+  padding: 30px;
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
 }
 
-/* Restaurant Actions 스타일 */
-.restaurant-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
+.gemini-summary {
+  margin-bottom: 30px;
 }
 
-.review-button {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+.summary-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ai-badge {
+  background: linear-gradient(135deg, var(--ghibli-blue), #64b5f6);
   color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
-  min-height: 44px;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
 }
 
-.review-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+.ai-icon {
+  font-size: 1rem;
 }
 
-.review-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
+.ai-text {
+  font-weight: 600;
 }
 
-.review-button.loading {
-  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+.ai-sparkle {
+  margin-left: 4px;
 }
 
-.maps-button {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
-  color: white;
-  border: none;
-  padding: 8px 16px;
+.structured-summary {
+  background: linear-gradient(135deg, var(--ghibli-cream), #ffffff);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(129, 199, 132, 0.2);
+}
+
+.main-evaluation {
+  margin-bottom: 25px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-icon {
+  margin-right: 10px;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.evaluation-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.summary-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.summary-section:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pros {
+  border-left: 4px solid var(--ghibli-green);
+}
+
+.cons {
+  border-left: 4px solid #ff6b6b;
+}
+
+.menu {
+  border-left: 4px solid var(--ghibli-yellow);
+}
+
+.tips {
+  border-left: 4px solid var(--ghibli-blue);
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  transition: all 0.3s ease;
   border-radius: 6px;
-  font-size: 0.85rem;
+}
+
+.summary-item:hover {
+  background: rgba(129, 199, 132, 0.05);
+  padding-left: 8px;
+}
+
+.item-bullet {
+  margin-right: 10px;
+  font-size: 0.8rem;
+}
+
+.menu-bullet, .tip-bullet {
+  margin-right: 10px;
+}
+
+.individual-reviews {
+  margin-top: 30px;
+}
+
+.reviews-header {
+  background: linear-gradient(135deg, var(--ghibli-cream), #ffffff);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(129, 199, 132, 0.2);
 }
 
-.maps-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+.reviews-header:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* 리뷰 요약 내용 스타일 */
-.review-summary {
-  padding: 20px 24px;
-  border-left: 4px solid #28a745;
+.reviews-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.reviews-icon {
+  margin-right: 10px;
+}
+
+.review-count-badge {
+  background: var(--ghibli-blue);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  color: var(--ghibli-green);
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+.expand-button:hover {
+  color: var(--ghibli-forest);
+}
+
+.expand-icon {
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.reviews-list {
+  display: none;
+}
+
+.review-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.review-item:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-color: rgba(129, 199, 132, 0.3);
+}
+
+.review-item:last-child {
+  margin-bottom: 0;
 }
 
 .review-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+}
+
+.author-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.author-name {
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
 .review-rating {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.scraped-rating {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #f39c12;
-}
-
-.review-count {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.review-source {
-  display: flex;
-  gap: 6px;
-}
-
-.source-badge {
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.review-sentiment {
-  display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.llm-badge {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-}
-
-.review-content .review-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 16px;
-  background: #f8f9fa;
-  padding: 16px;
-  border-radius: 8px;
-  border-left: 3px solid #667eea;
-}
-
-.detailed-review {
-  margin: 16px 0;
-  padding: 16px;
-  background: #fafafa;
-  border-radius: 8px;
-}
-
-.review-section {
-  margin-bottom: 16px;
-}
-
-.section-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.review-list {
-  margin: 0;
-  padding-left: 20px;
-}
-
-.review-list li {
-  margin-bottom: 4px;
-  color: #555;
-}
-
-.review-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 16px 0;
-}
-
-.keyword-tag {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 16px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.expand-toggle {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: #495057;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-  align-self: flex-start;
-}
-
-.expand-toggle:hover {
-  background: #e9ecef;
-  transform: translateY(-1px);
-}
-
-/* 개별 리뷰 목록 스타일 */
-.individual-reviews {
-  border-top: 1px solid #eee;
-  padding: 20px 24px;
-  background: #fafafa;
-}
-
-.individual-reviews h4 {
-  margin: 0 0 16px 0;
-  color: #333;
-  font-size: 1.1rem;
-}
-
-.reviews-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.individual-review {
-  background: white;
-  padding: 12px;
-  border-radius: 8px;
-  border-left: 3px solid #ddd;
-}
-
-.individual-review .review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 0.85rem;
-}
-
-.individual-review .author {
-  font-weight: 600;
-  color: #333;
-}
-
-.individual-review .rating {
-  color: #f39c12;
-}
-
-.individual-review .time {
-  color: #666;
-}
-
-.individual-review .review-text {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #555;
-  margin: 0;
-}
-
-.review-meta {
-  margin-top: 12px;
-  text-align: center;
-}
-
-.review-meta small {
-  color: #999;
-  font-size: 0.75rem;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-  .review-modal-content {
-    max-width: 95vw;
-    max-height: 95vh;
-    margin: 10px;
-  }
-  
-  .modal-header {
-    padding: 16px 20px 10px;
-  }
-  
-  .modal-header h3 {
-    font-size: 1.1rem;
-  }
-  
-  .review-summary {
-    padding: 16px 20px;
-  }
-  
-  .restaurant-actions {
-    flex-direction: column;
-  }
-  
-  .review-button {
-    font-size: 0.85rem;
-    padding: 12px 16px;
-  }
-}
-
-/* 애니메이션 */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Restaurant Card 개선 */
-.restaurant-card {
-  display: flex;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.restaurant-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
-.restaurant-rank {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  min-width: 80px;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
-
-.restaurant-main {
-  flex: 1;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.restaurant-info h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.restaurant-address {
-  color: #666;
-  font-size: 0.9rem;
-  margin: 0 0 12px 0;
-  line-height: 1.4;
-}
-
-.restaurant-details {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-
-.rating-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .rating-number {
+  background: linear-gradient(135deg, var(--ghibli-yellow), #ffd54f);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #f39c12;
 }
 
-.rating-count {
-  color: #666;
+.review-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  border-radius: 10px;
+  border-left: 3px solid var(--ghibli-green);
+}
+
+.review-meta {
+  display: flex;
+  gap: 15px;
+  color: var(--text-light);
   font-size: 0.85rem;
 }
 
-.price-level .price-symbol {
+.review-time, .review-source {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.simple-summary {
+  background: linear-gradient(135deg, var(--ghibli-cream), #ffffff);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid rgba(129, 199, 132, 0.2);
+}
+
+.summary-text {
   font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+  margin: 0;
 } 

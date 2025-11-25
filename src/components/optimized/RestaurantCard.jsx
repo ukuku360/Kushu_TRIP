@@ -27,189 +27,224 @@ const StarRating = memo(({ rating }) => {
 StarRating.displayName = 'StarRating'
 
 // 리뷰 요약 컴포넌트
-const ReviewSummary = memo(({ restaurant, cityName, reviews, onClose }) => {
-  const [reviewData, setReviewData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+const ReviewSummary = memo(({ 
+  restaurant, 
+  cityName, 
+  reviews, 
+  summary, // Gemini에서 생성된 요약
+  isLoading,
+  error,
+  onClose 
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    if (reviews && reviews.length > 0) {
-      generateReviewSummary();
-    }
-  }, [reviews]);
-
-  const generateReviewSummary = async () => {
-    setIsLoading(true);
-    try {
-      // 제미나이로 리뷰 요약
-      const summary = await reviewSummaryService.summarizeReviews(reviews, restaurant.name);
-      setReviewData({
-        ...summary,
-        totalReviews: reviews.length,
-        collectTime: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('리뷰 요약 생성 실패:', error);
-      setReviewData({
-        summary: '리뷰 요약을 생성할 수 없습니다.',
-        keywords: [],
-        sentiment: 'neutral',
-        totalReviews: reviews.length
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <motion.div 
-        className="review-summary-modal"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <div className="review-modal-content">
-          <div className="modal-header">
-            <h3>🤖 리뷰 분석 중...</h3>
-            <button className="close-button" onClick={onClose}>✕</button>
-          </div>
-          <div className="loading-content">
-            <span className="loading-spinner">🔄</span>
-            <p>구글맵 리뷰 {reviews?.length || 0}개를 제미나이로 분석하고 있습니다...</p>
-          </div>
-        </div>
-      </motion.div>
-    );
-  }
-
-  if (!reviewData) return null;
-
-  const getSentimentIcon = (sentiment) => {
-    switch (sentiment) {
-      case 'positive': return '😊';
-      case 'negative': return '😕';
-      default: return '😐';
-    }
-  };
-
-  const getSentimentColor = (sentiment) => {
-    switch (sentiment) {
-      case 'positive': return '#28a745';
-      case 'negative': return '#dc3545';
-      default: return '#6c757d';
-    }
-  };
-
   return (
-    <motion.div 
-      className="review-summary-modal"
+    <motion.div
+      className="review-summary-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      onClick={onClose}
     >
-      <div className="review-modal-content">
-        <div className="modal-header">
-          <h3>📝 {restaurant.name} 리뷰 요약</h3>
-          <button className="close-button" onClick={onClose}>✕</button>
-        </div>
-        
-        <div className="review-summary" style={{ borderLeftColor: getSentimentColor(reviewData.sentiment) }}>
-          <div className="review-header">
-            <div className="review-rating">
-              {reviewData.avgRating && (
-                <>
-                  <span className="scraped-rating">⭐ {reviewData.avgRating}</span>
-                  <span className="review-count">({reviewData.totalReviews}개 리뷰)</span>
-                </>
-              )}
-              <div className="review-source">
-                <span className="source-badge">🌐 구글맵 실시간</span>
-              </div>
-            </div>
-            <div className="review-sentiment">
-              <span style={{ color: getSentimentColor(reviewData.sentiment) }}>
-                {getSentimentIcon(reviewData.sentiment)}
-              </span>
-              {reviewData.llmUsed && <span className="llm-badge">🤖 Gemini</span>}
-            </div>
-          </div>
-
-          <div className="review-content">
-            <p className="review-text">
-              {reviewData.summary}
+      <motion.div
+        className="review-summary-modal"
+        initial={{ scale: 0.9, opacity: 0, y: 50 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 50 }}
+        transition={{ type: "spring", damping: 20, stiffness: 300 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="review-summary-header">
+          <div className="header-content">
+            <h2 className="restaurant-title">
+              <span className="restaurant-icon">🏮</span>
+              {restaurant.name}
+            </h2>
+            <p className="location-info">
+              <span className="location-icon">📍</span>
+              {cityName} • {isLoading ? '리뷰 수집중...' : `최신 ${reviews.length}개 리뷰`}
             </p>
-
-            {isExpanded && reviewData.llmUsed && (
-              <div className="detailed-review">
-                {reviewData.strengths && reviewData.strengths.length > 0 && (
-                  <div className="review-section">
-                    <h4 className="section-title">👍 장점</h4>
-                    <ul className="review-list">
-                      {reviewData.strengths.map((strength, index) => (
-                        <li key={index}>{strength}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {reviewData.weaknesses && reviewData.weaknesses.length > 0 && (
-                  <div className="review-section">
-                    <h4 className="section-title">👎 단점</h4>
-                    <ul className="review-list">
-                      {reviewData.weaknesses.map((weakness, index) => (
-                        <li key={index}>{weakness}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {reviewData.collectTime && (
-                  <div className="review-meta">
-                    <small>수집 시간: {new Date(reviewData.collectTime).toLocaleString()}</small>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {reviewData.keywords && reviewData.keywords.length > 0 && (
-              <div className="review-keywords">
-                {reviewData.keywords.map((keyword, index) => (
-                  <span key={index} className="keyword-tag">#{keyword}</span>
-                ))}
-              </div>
-            )}
-
-            {reviewData.llmUsed && (
-              <button 
-                className="expand-toggle"
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                {isExpanded ? '접기 ▲' : '자세히 ▼'}
-              </button>
-            )}
           </div>
+          <button className="close-button" onClick={onClose}>
+            <span>✕</span>
+          </button>
         </div>
 
-        {/* 개별 리뷰 목록 (접힌 상태) */}
-        {isExpanded && reviews && (
-          <div className="individual-reviews">
-            <h4>📋 개별 리뷰 ({reviews.length}개)</h4>
-            <div className="reviews-list">
-              {reviews.slice(0, 10).map((review, index) => (
-                <div key={index} className="individual-review">
-                  <div className="review-header">
-                    <span className="author">{review.author}</span>
-                    <span className="rating">{'⭐'.repeat(Math.floor(review.rating || 0))}</span>
-                    <span className="time">{review.time}</span>
-                  </div>
-                  <p className="review-text">{review.text}</p>
-                </div>
-              ))}
+        <div className="review-summary-content">
+          {/* 로딩 상태 */}
+          {isLoading && (
+            <div className="loading-container">
+              <div className="loading-spinner-large">🔄</div>
+              <p className="loading-text">최신 리뷰 20개를 수집하고 있습니다...</p>
+              <p className="loading-subtext">잠시만 기다려주세요 ✨</p>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+
+          {/* 에러 상태 */}
+          {error && !isLoading && (
+            <div className="error-container">
+              <div className="error-icon">❌</div>
+              <p className="error-text">{error}</p>
+              <p className="error-subtext">다시 시도해주세요.</p>
+            </div>
+          )}
+
+          {/* 성공 상태 - Gemini AI 요약 */}
+          {!isLoading && !error && reviews.length > 0 && (
+            <>
+              <div className="gemini-summary">
+                <div className="summary-badge">
+                  <div className="ai-badge">
+                    <span className="ai-icon">🤖</span>
+                    <span className="ai-text">Gemini AI 요약</span>
+                    <span className="ai-sparkle">✨</span>
+                  </div>
+                </div>
+
+                {summary && typeof summary === 'object' ? (
+                  <div className="structured-summary">
+                    {/* 종합평가 */}
+                    <div className="main-evaluation">
+                      <div className="section-header">
+                        <span className="section-icon">🌟</span>
+                        <h3 className="section-title">종합평가</h3>
+                      </div>
+                      <p className="evaluation-text">{summary.종합평가}</p>
+                    </div>
+
+                    {/* 세부 항목들 */}
+                    <div className="summary-grid">
+                      {/* 주요 장점 */}
+                      <div className="summary-section pros">
+                        <div className="section-header">
+                          <span className="section-icon">👍</span>
+                          <h4 className="section-title">주요 장점</h4>
+                        </div>
+                        <ul className="summary-list">
+                          {(summary.주요장점 || summary.장점 || []).map((item, index) => (
+                            <li key={index} className="summary-item">
+                              <span className="item-bullet">🌿</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* 아쉬운 점 */}
+                      <div className="summary-section cons">
+                        <div className="section-header">
+                          <span className="section-icon">👎</span>
+                          <h4 className="section-title">아쉬운 점</h4>
+                        </div>
+                        <ul className="summary-list">
+                          {(summary.아쉬운점 || summary.단점 || []).map((item, index) => (
+                            <li key={index} className="summary-item">
+                              <span className="item-bullet">🌸</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* 추천 메뉴 */}
+                      <div className="summary-section menu">
+                        <div className="section-header">
+                          <span className="section-icon">🍜</span>
+                          <h4 className="section-title">추천 메뉴</h4>
+                        </div>
+                        <ul className="summary-list">
+                          {(summary.추천메뉴 || summary.메뉴 || []).map((item, index) => (
+                            <li key={index} className="summary-item">
+                              <span className="menu-bullet">🥢</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* 방문 팁 */}
+                      <div className="summary-section tips">
+                        <div className="section-header">
+                          <span className="section-icon">💡</span>
+                          <h4 className="section-title">방문 팁</h4>
+                        </div>
+                        <ul className="summary-list">
+                          {(summary.방문팁 || summary.팁 || []).map((item, index) => (
+                            <li key={index} className="summary-item">
+                              <span className="tip-bullet">🌙</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="simple-summary">
+                    <p className="summary-text">
+                      {summary || `${restaurant.name}에 대한 ${reviews.length}개의 최신 리뷰를 수집했습니다.`}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* 개별 리뷰 목록 */}
+              <div className="individual-reviews">
+                <div className="reviews-header" onClick={() => setIsExpanded(!isExpanded)}>
+                  <div className="reviews-title">
+                    <span className="reviews-icon">📝</span>
+                    <span>최신 개별 리뷰</span>
+                    <span className="review-count-badge">{reviews.length}개</span>
+                  </div>
+                  <button className="expand-button">
+                    <span className={`expand-icon ${isExpanded ? 'expanded' : ''}`}>🌸</span>
+                  </button>
+                </div>
+                
+                {isExpanded && (
+                  <motion.div
+                    className="reviews-list"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                    {reviews.map((review, index) => (
+                      <div key={index} className="review-item">
+                        <div className="review-header">
+                          <div className="review-author">
+                            <span className="author-icon">👤</span>
+                            <span className="author-name">{review.author || '익명'}</span>
+                          </div>
+                          {review.rating && (
+                            <div className="review-rating">
+                              <span className="rating-number">{review.rating}⭐</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="review-time">
+                          <span className="time-icon">⏰</span>
+                          <span>{review.time || '최근'}</span>
+                        </div>
+                        <p className="review-text">{review.text}</p>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* 리뷰가 없는 경우 */}
+          {!isLoading && !error && reviews.length === 0 && (
+            <div className="no-reviews">
+              <div className="no-reviews-icon">🤷‍♂️</div>
+              <p className="no-reviews-text">이 식당의 리뷰를 찾을 수 없습니다.</p>
+              <p className="no-reviews-subtext">다른 식당을 확인해보세요.</p>
+            </div>
+          )}
+        </div>
+      </motion.div>
     </motion.div>
   );
 });
@@ -226,8 +261,10 @@ const RestaurantCard = memo(({
   showReviews = true
 }) => {
   const [showReviewSummary, setShowReviewSummary] = useState(false);
-  const [scrapedReviews, setScrapedReviews] = useState(null);
-  const [isScrapingReviews, setIsScrapingReviews] = useState(false);
+  const [isLoadingReview, setIsLoadingReview] = useState(false);
+  const [reviewError, setReviewError] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [summary, setSummary] = useState('');
 
   const handleClick = useCallback(() => {
     if (isClickable && onClick) {
@@ -242,40 +279,85 @@ const RestaurantCard = memo(({
     }
   }, [handleClick])
 
-  // 리뷰 버튼 클릭 핸들러
-  const handleReviewClick = useCallback(async (e) => {
-    e.stopPropagation(); // 카드 클릭 이벤트 방지
+  // 리뷰 요약 로딩 함수
+  const loadReviewSummary = useCallback(async () => {
+    if (!restaurant.place_id) {
+      console.warn('place_id가 없어 리뷰를 가져올 수 없습니다:', restaurant.name);
+      setReviewError('이 식당의 리뷰 정보를 찾을 수 없습니다.');
+      setIsLoadingReview(false);
+      return;
+    }
+
+    setIsLoadingReview(true);
+    setReviewError(null);
     
-    setIsScrapingReviews(true);
     try {
-      console.log(`🔍 ${restaurant.name} 구글맵 리뷰 스크랩 시작`);
+      console.log(`📝 ${restaurant.name} 최신 20개 리뷰 수집 시작...`);
       
-      // 구글맵에서 리뷰 20개 스크랩
-      const reviews = await googleMapsReviewScraper.scrapeGoogleMapsReviews(
+      // 최신 20개 리뷰 스크랩
+      const result = await googleMapsReviewScraper.scrapeReviews(
         restaurant.name, 
-        cityName
+        cityName, 
+        restaurant.place_id,
+        20 // 최신 20개 리뷰
       );
       
-      const cleanedReviews = googleMapsReviewScraper.cleanAndValidateReviews(reviews);
-      setScrapedReviews(cleanedReviews);
-      setShowReviewSummary(true);
-      
-      console.log(`✅ ${cleanedReviews.length}개 리뷰 수집 완료`);
+      if (result && result.reviews) {
+        console.log(`✅ ${restaurant.name} 최신 리뷰 ${result.reviews.length}개 수집 완료`);
+        setReviews(result.reviews);
+        setSummary(result.summary);
+      } else {
+        throw new Error('리뷰 데이터가 없습니다.');
+      }
       
     } catch (error) {
-      console.error('리뷰 스크랩 실패:', error);
-      // 실패 시에도 Mock 데이터로 진행
-      const mockReviews = googleMapsReviewScraper.generateMockGoogleMapsReviews(restaurant.name);
-      setScrapedReviews(mockReviews);
-      setShowReviewSummary(true);
+      console.error(`❌ ${restaurant.name} 리뷰 로딩 실패:`, error);
+      setReviewError(`리뷰를 불러올 수 없습니다: ${error.message}`);
+      
+      // 백업: 기본 리뷰 정보라도 표시
+      try {
+        const fallbackReviews = await googleMapsReviewScraper.getPlaceReviews(restaurant.place_id);
+        if (fallbackReviews && fallbackReviews.length > 0) {
+          setReviews(fallbackReviews.slice(0, 20));
+          setSummary({
+            종합평가: `${restaurant.name}에 대한 기본 리뷰 정보입니다.`,
+            주요장점: ['Google Places API를 통한 리뷰'],
+            아쉬운점: ['상세 분석이 제한됨'],
+            추천메뉴: [],
+            방문팁: ['Google Maps에서 더 많은 정보를 확인하세요.']
+          });
+          setReviewError(null);
+        }
+      } catch (fallbackError) {
+        console.warn('백업 리뷰 로딩도 실패:', fallbackError);
+      }
     } finally {
-      setIsScrapingReviews(false);
+      setIsLoadingReview(false);
     }
-  }, [restaurant, cityName]);
+  }, [restaurant.place_id, restaurant.name, cityName]);
 
-  const handleCloseReviewSummary = useCallback(() => {
+  // 리뷰 버튼 클릭 핸들러
+  const handleReviewClick = useCallback(async (e) => {
+    e.stopPropagation(); // 부모 클릭 이벤트 방지
+    
+    console.log(`🔍 ${restaurant.name} 최신 리뷰 요약 시작`);
+    
+    // 즉시 모달 표시하고 로딩 상태로 설정
+    setShowReviewSummary(true);
+    setIsLoadingReview(true);
+    setReviewError(null);
+    
+    // 최신 20개 리뷰 로드
+    await loadReviewSummary();
+    
+  }, [restaurant.name, loadReviewSummary]);
+
+  // 리뷰 요약 모달 닫기
+  const closeReviewSummary = useCallback(() => {
     setShowReviewSummary(false);
-    setScrapedReviews(null);
+    setReviews([]);
+    setSummary('');
+    setReviewError(null);
   }, []);
 
   return (
@@ -292,24 +374,45 @@ const RestaurantCard = memo(({
         transition={{ duration: 0.3 }}
         whileHover={isClickable ? { scale: 1.02 } : {}}
       >
-        <div className="restaurant-rank">#{rank}</div>
-        
+        <div className="restaurant-header">
+          <div className="restaurant-name-section">
+            {restaurant.rank && (
+              <div className="rank-badge">
+                #{restaurant.rank}
+              </div>
+            )}
+            <h3 className="restaurant-name">{restaurant.name}</h3>
+            {restaurant.rankInfo && (
+              <div className="rank-info">
+                {restaurant.rankInfo}
+              </div>
+            )}
+          </div>
+          
+          <div className="restaurant-rating">
+            {restaurant.rating ? (
+              <>
+                <span className="rating-score">{restaurant.rating}</span>
+                <span className="rating-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={`star ${i < Math.floor(restaurant.rating) ? 'filled' : ''}`}>
+                      ⭐
+                    </span>
+                  ))}
+                </span>
+                <span className="rating-count">({restaurant.user_ratings_total || 0})</span>
+              </>
+            ) : (
+              <span className="no-rating">평점 없음</span>
+            )}
+          </div>
+        </div>
+
         <div className="restaurant-main">
           <div className="restaurant-info">
-            <h3 className="restaurant-name">{restaurant.name}</h3>
             <p className="restaurant-address">{restaurant.vicinity || restaurant.formatted_address}</p>
             
             <div className="restaurant-details">
-              {restaurant.rating && (
-                <div className="rating-info">
-                  <StarRating rating={restaurant.rating} />
-                  <span className="rating-number">{restaurant.rating}</span>
-                  {restaurant.user_ratings_total && (
-                    <span className="rating-count">({restaurant.user_ratings_total})</span>
-                  )}
-                </div>
-              )}
-              
               {restaurant.price_level && (
                 <div className="price-level">
                   <span className="price-symbol">{'💰'.repeat(restaurant.price_level)}</span>
@@ -322,20 +425,20 @@ const RestaurantCard = memo(({
           {showReviews && (
             <div className="restaurant-actions">
               <motion.button
-                className={`review-button ${isScrapingReviews ? 'loading' : ''}`}
+                className={`review-button ${isLoadingReview ? 'loading' : ''}`}
                 onClick={handleReviewClick}
-                disabled={isScrapingReviews}
+                disabled={isLoadingReview}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {isScrapingReviews ? (
+                {isLoadingReview ? (
                   <>
                     <span className="loading-spinner">🔄</span>
-                    리뷰 수집중...
+                    최신 리뷰 20개 수집중...
                   </>
                 ) : (
                   <>
-                    📝 구글맵 리뷰 보기
+                    📝 최신 리뷰 20개 보기
                   </>
                 )}
               </motion.button>
@@ -354,12 +457,15 @@ const RestaurantCard = memo(({
       </motion.div>
 
       {/* 리뷰 요약 모달 */}
-      {showReviewSummary && scrapedReviews && (
+      {showReviewSummary && (
         <ReviewSummary
           restaurant={restaurant}
           cityName={cityName}
-          reviews={scrapedReviews}
-          onClose={handleCloseReviewSummary}
+          reviews={reviews}
+          summary={summary}
+          isLoading={isLoadingReview}
+          error={reviewError}
+          onClose={closeReviewSummary}
         />
       )}
     </>

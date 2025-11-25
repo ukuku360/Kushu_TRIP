@@ -1,14 +1,12 @@
-import apiClient, { ApiError } from '../utils/apiClient.js';
 import googlePlacesService from '../utils/googlePlacesAPI.js';
-import hybridDataService from './hybridDataService.js';
-
-const USE_MOCK_API = true; // 정확한 일본 핫플레이스 이름을 위해 Mock API 강제 사용
-const USE_TRENDING_DATA = false; // 트렌딩 데이터 비활성화
+import { ApiError } from '../utils/apiClient.js';
+import databaseService from './databaseService.js';
+import { hotplaceCache } from '../utils/localStorageCache.js';
 
 class HotplaceService {
   constructor() {
     this.cache = new Map();
-    this.cacheExpiry = 10 * 60 * 1000; // 10분
+    this.cacheExpiry = 5 * 60 * 1000; // 5분
   }
 
   getCacheKey(cityId, placeType) {
@@ -31,21 +29,42 @@ class HotplaceService {
   }
 
   getCitySearchTerms(cityId) {
-    return googlePlacesService.getCitySearchTerms(cityId);
+    const cityTerms = {
+      fukuoka: 'Fukuoka Hakata',
+      kurume: 'Kurume',
+      kumamoto: 'Kumamoto',
+      nagasaki: 'Nagasaki',
+      sasebo: 'Sasebo Nagasaki',
+      oita: 'Oita Beppu',
+      saga: 'Saga Karatsu'
+    };
+    
+    return cityTerms[cityId] || cityId;
   }
 
   getPlaceSearchTerms(placeType) {
     const placeTerms = {
-      shrine: 'shrine temple',
-      temple: 'temple shrine',
-      park: 'park garden',
-      museum: 'museum',
-      castle: 'castle historical site',
-      observation: 'observation deck viewpoint',
-      shopping: 'shopping mall department store',
-      hotspring: 'hot spring onsen',
-      beach: 'beach coast',
-      mountain: 'mountain hiking trail'
+      ohori_park: 'Ohori Park',
+      dazaifu: 'Dazaifu Tenmangu',
+      canal_city: 'Canal City Hakata',
+      inari_shrine: 'Inari Shrine',
+      chikugo_river: 'Chikugo River',
+      ishibashi_bunka: 'Ishibashi Cultural Center',
+      kumamoto_castle: 'Kumamoto Castle',
+      suizenji: 'Suizenji Garden',
+      aso_shrine: 'Aso Shrine',
+      glover_garden: 'Glover Garden',
+      peace_park: 'Peace Park',
+      dejima: 'Dejima',
+      kujukushima: 'Kujukushima Islands',
+      sasebo_navy: 'Sasebo Naval Base',
+      huis_ten_bosch: 'Huis Ten Bosch',
+      beppu_onsen: 'Beppu Onsen',
+      yufuin: 'Yufuin',
+      usuki: 'Usuki Stone Buddhas',
+      yoshinogari: 'Yoshinogari Historical Park',
+      arita: 'Arita Porcelain Park',
+      karatsu: 'Karatsu Castle'
     };
     
     return placeTerms[placeType] || placeType;
@@ -56,54 +75,87 @@ class HotplaceService {
       throw new ApiError('도시와 장소 종류를 모두 입력해주세요.', 400);
     }
 
+    // 1. 데이터베이스에서 먼저 확인
+    try {
+      const dbData = await databaseService.getHotplaces(cityId, placeType);
+      if (dbData) {
+        console.log('✅ 데이터베이스에서 핫플레이스 데이터 반환:', `${cityId}-${placeType}`);
+        return dbData;
+      }
+    } catch (error) {
+      console.warn('데이터베이스 조회 실패, 캐시로 계속:', error.message);
+    }
+
+    // 2. localStorage 백업 캐시 확인
+    const localStorageKey = hotplaceCache.generateKey('search', { cityId, placeType });
+    const localStorageData = hotplaceCache.get(localStorageKey);
+    if (localStorageData) {
+      console.log('✅ localStorage 백업 캐시에서 핫플레이스 데이터 반환:', localStorageKey);
+      // 메모리 캐시에도 복사해서 다음 요청 속도 향상
+      const memoryCacheKey = this.getCacheKey(cityId, placeType);
+      this.setCache(memoryCacheKey, localStorageData);
+      return localStorageData;
+    }
+
+    // 3. 메모리 캐시 확인 (마지막 백업)
     const cacheKey = this.getCacheKey(cityId, placeType);
     const cachedData = this.getFromCache(cacheKey);
     if (cachedData) {
-      console.log('✅ 캐시에서 데이터 반환:', cacheKey);
+      console.log('✅ 메모리 캐시에서 데이터 반환:', cacheKey);
       return cachedData;
     }
 
+    // 3. Google Places API 호출
     try {
       console.log(`🔍 실제 Google Places API로 핫플레이스 검색: ${cityId} ${placeType}`);
       
       const cityTerm = this.getCitySearchTerms(cityId);
       const placeTerm = this.getPlaceSearchTerms(placeType);
-      const query = `${placeTerm} tourist attraction`;
+      // "restaurant" 키워드 제거하고 "tourist attraction" 추가
+      const query = `${placeTerm}`;
       
-      const hotplaces = await googlePlacesService.searchRestaurants(query, cityTerm);
+      // searchPlaces 사용 (type: 'tourist_attraction' 지정)
+      const hotplaces = await googlePlacesService.searchPlaces(query, { 
+        location: cityTerm,
+        type: 'tourist_attraction'
+      });
       
       if (!hotplaces || hotplaces.length === 0) {
-        console.log('Google Places API 결과 없음, 하이브리드 서비스 시도');
-        const hybridResults = await hybridDataService.getHotplaces(cityId, placeType, options);
-        
-        if (hybridResults && hybridResults.length > 0) {
-          this.setCache(cacheKey, hybridResults);
-          return hybridResults;
-        }
-        
-        throw new ApiError('검색 결과를 찾을 수 없습니다.', 404);
+        throw new ApiError('검색 결과를 찾을 수 없습니다. API 키를 확인해주세요.', 404);
       }
 
-      console.log(`✅ 핫플레이스 검색 완료: ${hotplaces.length}개`, hotplaces.map(h => h.name));
+      console.log(`✅ 실제 API 핫플레이스 검색 완료: ${hotplaces.length}개`);
 
-      this.setCache(cacheKey, hotplaces);
+      // 4. 다중 캐시 저장 (병렬)
+      const savePromises = [
+        // 데이터베이스 저장
+        databaseService.saveHotplaces(cityId, placeType, hotplaces).catch(error => {
+          console.warn('핫플레이스 데이터베이스 저장 실패:', error.message);
+        }),
+        
+        // localStorage 백업 캐시 저장
+        Promise.resolve().then(() => {
+          hotplaceCache.set(localStorageKey, hotplaces);
+        }).catch(error => {
+          console.warn('핫플레이스 localStorage 저장 실패:', error.message);
+        })
+      ];
       
+      // 병렬 저장 실행 (결과를 기다리지 않음)
+      Promise.all(savePromises);
+
+      // 5. 메모리 캐시에도 저장 (즉시)
+      this.setCache(cacheKey, hotplaces);
       return hotplaces;
       
     } catch (error) {
-      console.error('핫플레이스 검색 실패:', error);
+      console.error('Google Places API 핫플레이스 검색 실패:', error);
       
-      if (error instanceof ApiError) {
-        try {
-          console.log('API 오류로 인해 하이브리드 서비스로 폴백');
-          const hybridResults = await hybridDataService.getHotplaces(cityId, placeType, options);
-          return hybridResults || [];
-        } catch (hybridError) {
-          console.error('하이브리드 서비스도 실패:', hybridError);
-        }
+      if (error.message.includes('키') || error.message.includes('API')) {
+        throw new ApiError('Google Places API 키를 설정해주세요. .env 파일에 VITE_GOOGLE_PLACES_API_KEY를 추가하세요.', 401);
       }
       
-      throw new ApiError('핫플레이스 정보를 가져올 수 없습니다.', 500, error.message);
+      throw new ApiError('핫플레이스 정보를 가져올 수 없습니다. 네트워크 연결을 확인해주세요.', 500, error.message);
     }
   }
 

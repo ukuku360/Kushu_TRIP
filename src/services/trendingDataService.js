@@ -78,23 +78,23 @@ class TrendingDataService {
     if (query.includes('후쿠오카')) {
       if (query.includes('라멘')) {
         return [
-          { name: '이치란 라멘', description: '후쿠오카 본점', specialty: '24시간 운영하는 정통 하카타 돈코츠라멘', rating: 4.5, reviews: 1200, details: '개인 부스에서 즐기는 프라이빗한 식사' },
-          { name: '잇푸도 라멘', description: '하카타 총본점', specialty: '진한 돈코츠 국물과 쫄깃한 스트레이트 면', rating: 4.3, reviews: 890, details: '1985년 창업의 하카타 라멘 명가' },
-          { name: '간토키 라멘', description: '숨은 맛집', specialty: '30년 전통의 진짜 현지인 맛집', rating: 4.7, reviews: 345, details: '작은 가게지만 최고의 맛으로 유명' }
+          { name: '一蘭(이치란)', description: '후쿠오카 본점', specialty: '24시간 운영하는 정통 하카타 돈코츠라멘', rating: 4.5, reviews: 1200, details: '개인 부스에서 즐기는 프라이빗한 식사' },
+          { name: '一風堂(이프푸도)', description: '하카타 총본점', specialty: '진한 돈코츠 국물과 쫄깃한 스트레이트 면', rating: 4.3, reviews: 890, details: '1985년 창업의 하카타 라멘 명가' },
+          { name: '鶴亀堂(간토키)', description: '숨은 맛집', specialty: '30년 전통의 진짜 현지인 맛집', rating: 4.7, reviews: 345, details: '작은 가게지만 최고의 맛으로 유명' }
         ];
       }
       if (query.includes('명란젓') || query.includes('멘타이코')) {
         return [
-          { name: '후쿠타로', description: '원조 명란젓 전문점', specialty: '100년 전통의 명란젓 제조 기술', rating: 4.9, reviews: 756, details: '후쿠오카 대표 명란젓 브랜드' },
-          { name: '야마야', description: '명란젓 명가', specialty: '온라인에서도 인기인 명란젓 전문점', rating: 4.7, reviews: 432, details: '다양한 명란젓 제품과 오니기리' },
-          { name: '가네후쿠', description: '선물용 명란젓', specialty: '고급 선물세트로 유명한 브랜드', rating: 4.6, reviews: 298, details: '공항 면세점에서도 판매' }
+          { name: 'ふくや(후쿠타로)', description: '원조 명란젓 전문점', specialty: '100년 전통의 명란젓 제조 기술', rating: 4.9, reviews: 756, details: '후쿠오카 대표 명란젓 브랜드' },
+          { name: 'やまや(야마야)', description: '명란젓 명가', specialty: '온라인에서도 인기인 명란젓 전문점', rating: 4.7, reviews: 432, details: '다양한 명란젓 제품과 오니기리' },
+          { name: 'かねふく(가네후쿠)', description: '선물용 명란젓', specialty: '고급 선물세트로 유명한 브랜드', rating: 4.6, reviews: 298, details: '공항 면세점에서도 판매' }
         ];
       }
       if (query.includes('모츠나베')) {
         return [
-          { name: '야마쇼', description: '전통 모츠나베 전문점', specialty: '50년 전통의 정통 모츠나베 맛', rating: 4.8, reviews: 623, details: '신선한 곱창과 특제 국물' },
-          { name: '모츠나베 타케', description: '간장 베이스 명가', specialty: '깔끔한 간장 베이스 모츠나베', rating: 4.6, reviews: 441, details: '현지인들이 자주 찾는 단골집' },
-          { name: '하카타 모츠나베', description: '미소 베이스', specialty: '진한 미소 베이스의 진짜 하카타 맛', rating: 4.7, reviews: 534, details: '채소와 곱창의 완벽한 조화' }
+          { name: 'やま中(야마쇼)', description: '전통 모츠나베 전문점', specialty: '50년 전통의 정통 모츠나베 맛', rating: 4.8, reviews: 623, details: '신선한 곱창과 특제 국물' },
+          { name: 'もつ鍋 たけ(모츠나베 타케)', description: '간장 베이스 명가', specialty: '깔끔한 간장 베이스 모츠나베', rating: 4.6, reviews: 441, details: '현지인들이 자주 찾는 단골집' },
+          { name: '博多 もつ鍋(하카타 모츠나베)', description: '미소 베이스', specialty: '진한 미소 베이스의 진짜 하카타 맛', rating: 4.7, reviews: 534, details: '채소와 곱창의 완벽한 조화' }
         ];
       }
     }
@@ -103,23 +103,16 @@ class TrendingDataService {
     if (query.includes('쿠루메')) {
       if (query.includes('야키토리')) {
         return [
-          { name: '다이젠', description: '쿠루메 야키토리 원조', specialty: '쿠루메식 달콤한 타레 야키토리', rating: 4.9, reviews: 876, details: '70년 전통의 쿠루메 대표 야키토리집' },
-          { name: '토리신', description: '숯불 구이 전문', specialty: '참숯으로 굽는 정통 야키토리', rating: 4.8, reviews: 654, details: '매일 새벽에 준비하는 신선한 닭고기' },
-          { name: '야키토리 마츠야', description: '비밀 소스', specialty: '3대째 전해내려오는 비밀 소스', rating: 4.7, reviews: 432, details: '작은 가게지만 항상 줄서는 맛집' }
+          { name: '大善(다이젠)', description: '쿠루메 야키토리 원조', specialty: '쿠루메식 달콤한 타레 야키토리', rating: 4.9, reviews: 876, details: '70년 전통의 쿠루메 대표 야키토리집' },
+          { name: '鳥心(토리신)', description: '숯불 구이 전문', specialty: '참숯으로 굽는 정통 야키토리', rating: 4.8, reviews: 654, details: '매일 새벽에 준비하는 신선한 닭고기' },
+          { name: '焼き鳥 松屋(야키토리 마츠야)', description: '비밀 소스', specialty: '3대째 전해내려오는 비밀 소스', rating: 4.7, reviews: 432, details: '작은 가게지만 항상 줄서는 맛집' }
         ];
       }
       if (query.includes('라멘')) {
         return [
-          { name: '미나미 긴류', description: '톤코츠 원조집', specialty: '쿠루메가 원조인 톤코츠 라멘의 진짜 맛', rating: 4.8, reviews: 723, details: '1937년 창업의 톤코츠 라멘 원조' },
-          { name: '오모가에리', description: '진한 스프', specialty: '24시간 우린 진짜 진한 돼지뼈 국물', rating: 4.7, reviews: 567, details: '현지인만 아는 숨은 맛집' },
-          { name: '라멘 요코쵸', description: '전통 맛', specialty: '변하지 않는 옛날 그대로의 라멘 맛', rating: 4.6, reviews: 389, details: '60년 된 노포 라멘집' }
-        ];
-      }
-      if (query.includes('우동')) {
-        return [
-          { name: '마루호시', description: '쫄깃한 면발', specialty: '매일 새벽에 만드는 수제 우동면', rating: 4.7, reviews: 445, details: '쫄깃하고 탱탱한 면발이 일품' },
-          { name: '우동 스키', description: '맑은 국물', specialty: '깔끔하고 시원한 멸치 다시 국물', rating: 4.6, reviews: 334, details: '담백한 맛을 좋아하는 사람들의 선택' },
-          { name: '테우치 우동', description: '수제 우동', specialty: '주문 즉시 손으로 뽑는 생면 우동', rating: 4.5, reviews: 267, details: '시간이 걸려도 기다릴 가치가 있는 맛' }
+          { name: '南京千両(남킨센료)', description: '쿠루메 라멘 원조', specialty: '돈코츠 라멘의 발상지', rating: 4.8, reviews: 743, details: '1951년 창업의 톤코츠 라멘 원조집' },
+          { name: 'おもがえり(오모가에리)', description: '현지인 맛집', specialty: '진한 스프와 쫄깃한 면발', rating: 4.7, reviews: 567, details: '쿠루메 현지인들이 줄서는 인기집' },
+          { name: 'ラーメン横町(라멘 요코쵸)', description: '전통 맛', specialty: '옛날 그대로의 쿠루메 라멘', rating: 4.6, reviews: 423, details: '변하지 않는 전통의 맛' }
         ];
       }
     }
@@ -128,23 +121,23 @@ class TrendingDataService {
     if (query.includes('구마모토')) {
       if (query.includes('바사시') || query.includes('말고기')) {
         return [
-          { name: '스가노야', description: '최고급 말고기', specialty: '100년 전통의 최고급 바사시 전문점', rating: 4.9, reviews: 567, details: '신선도와 품질을 자랑하는 구마모토 대표 맛집' },
-          { name: '바사시 전문점', description: '신선한 말 회', specialty: '매일 아침 직접 공수하는 신선한 말고기', rating: 4.7, reviews: 423, details: '다양한 부위의 말고기 코스 제공' },
-          { name: '구마모토야', description: '전통 바사시', specialty: '구마모토 전통 방식으로 숙성한 바사시', rating: 4.6, reviews: 334, details: '관광객도 부담없이 즐길 수 있는 맛' }
+          { name: '菅乃屋(스가노야)', description: '바사시 명가', specialty: '구마모토 최고급 말고기 전문점', rating: 4.9, reviews: 892, details: '100년 전통의 바사시 전문점' },
+          { name: '馬刺し専門店(바사시 전문점)', description: '신선한 말 회', specialty: '매일 공수하는 신선한 말고기', rating: 4.7, reviews: 634, details: '다양한 부위의 바사시를 맛볼 수 있는 곳' },
+          { name: '熊本屋(구마모토야)', description: '전통 바사시', specialty: '할머니 손맛 그대로의 전통 바사시', rating: 4.6, reviews: 445, details: '관광객들에게도 친절한 현지 맛집' }
         ];
       }
-      if (query.includes('라멘') || query.includes('돈코츠')) {
+      if (query.includes('라멘')) {
         return [
-          { name: '구마모토 라멘관', description: '마늘 토핑', specialty: '구마모토식 마늘칩이 올라간 돈코츠 라멘', rating: 4.8, reviews: 678, details: '돈코츠지만 깔끔한 구마모토만의 맛' },
-          { name: '아지센', description: '진한 국물', specialty: '20시간 우린 진짜 진한 돼지뼈 국물', rating: 4.7, reviews: 523, details: '현지인들이 인정하는 정통 맛' },
-          { name: '류라멘', description: '구마모토식 차슈', specialty: '부드럽고 두툼한 구마모토산 돼지 차슈', rating: 4.6, reviews: 445, details: '차슈의 맛이 특별히 유명한 집' }
+          { name: '熊本ラーメン館(구마모토 라멘관)', description: '구마모토 라멘 대표', specialty: '마늘칩이 올라간 구마모토 라멘', rating: 4.8, reviews: 756, details: '구마모토역 근처의 대표 라멘집' },
+          { name: '味千(아지센)', description: '체인점 원조', specialty: '진한 돈코츠 국물의 정통 구마모토 라멘', rating: 4.7, reviews: 623, details: '전국 체인으로 유명한 구마모토 라멘' },
+          { name: '龍ラーメン(류라멘)', description: '구마모토식 차슈', specialty: '두툼한 차슈가 자랑인 구마모토 라멘', rating: 4.6, reviews: 534, details: '구마모토 시민들이 사랑하는 로컬 맛집' }
         ];
       }
       if (query.includes('카라시') || query.includes('연근')) {
         return [
-          { name: '로컨 전문점', description: '매운 연근 요리', specialty: '구마모토 특산 카라시 연근의 진짜 맛', rating: 4.8, reviews: 345, details: '매콤하면서도 아삭한 식감이 일품' },
-          { name: '구마모토 전통식당', description: '현지식 카라시', specialty: '할머니 손맛 그대로의 전통 카라시 연근', rating: 4.7, reviews: 267, details: '관광객에게도 친절한 현지 맛집' },
-          { name: '연근마을', description: '연근 코스', specialty: '연근을 이용한 다양한 요리 코스', rating: 4.5, reviews: 189, details: '연근의 다양한 매력을 느낄 수 있는 곳' }
+          { name: '蓮根専門店(로컨 전문점)', description: '매운 연근 요리', specialty: '구마모토 특산 카라시 연근의 진짜 맛', rating: 4.8, reviews: 345, details: '매콤하면서도 아삭한 식감이 일품' },
+          { name: '熊本伝統食堂(구마모토 전통식당)', description: '현지식 카라시', specialty: '할머니 손맛 그대로의 전통 카라시 연근', rating: 4.7, reviews: 267, details: '관광객에게도 친절한 현지 맛집' },
+          { name: '蓮根村(연근마을)', description: '연근 코스', specialty: '연근을 이용한 다양한 요리 코스', rating: 4.5, reviews: 189, details: '연근의 다양한 매력을 느낄 수 있는 곳' }
         ];
       }
     }
@@ -153,23 +146,23 @@ class TrendingDataService {
     if (query.includes('나가사키')) {
       if (query.includes('짬뽕') || query.includes('champon')) {
         return [
-          { name: '시카이로', description: '짬뽕 원조', specialty: '나가사키 짬뽕의 원조집으로 유명', rating: 4.9, reviews: 923, details: '1899년 창업의 나가사키 대표 중화요리점' },
-          { name: '고젠', description: '해물 짬뽕', specialty: '신선한 해산물이 가득한 진짜 나가사키 짬뽕', rating: 4.8, reviews: 712, details: '현지인들이 가장 많이 찾는 맛집' },
-          { name: '나가사키 짬뽕 명가', description: '전통 맛', specialty: '100년 전통 그대로의 변하지 않는 맛', rating: 4.7, reviews: 534, details: '관광객들이 줄서는 유명 맛집' }
+          { name: '四海楼(시카이로)', description: '짬뽕 원조', specialty: '나가사키 짬뽕의 원조집으로 유명', rating: 4.9, reviews: 923, details: '1899년 창업의 나가사키 대표 중화요리점' },
+          { name: '江山楼(코자이켄)', description: '해물 짬뽕', specialty: '신선한 해산물이 가득한 진짜 나가사키 짬뽕', rating: 4.8, reviews: 712, details: '현지인들이 가장 많이 찾는 맛집' },
+          { name: '麺馬鹿一代(멘바카 이치다이)', description: '전통 맛', specialty: '100년 전통 그대로의 변하지 않는 맛', rating: 4.7, reviews: 534, details: '관광객들이 줄서는 유명 맛집' }
         ];
       }
       if (query.includes('사라우동') || query.includes('sara_udon')) {
         return [
-          { name: '호라이켄', description: '사라우동 명가', specialty: '바삭한 면발과 진한 소스의 조화', rating: 4.8, reviews: 645, details: '나가사키 차이나타운의 대표 맛집' },
-          { name: '사라우동 전문점', description: '해산물 사라우동', specialty: '신선한 해산물과 야채의 완벽한 조화', rating: 4.7, reviews: 423, details: '볶음우동과는 다른 나가사키만의 맛' },
-          { name: '차이나타운 명가', description: '전통 사라우동', specialty: '3대째 이어온 전통 사라우동 레시피', rating: 4.6, reviews: 356, details: '관광과 맛을 동시에 즐길 수 있는 곳' }
+          { name: '明華園(메이카엔)', description: '사라우동 명가', specialty: '바삭한 면발과 진한 소스의 조화', rating: 4.8, reviews: 645, details: '나가사키 차이나타운의 대표 맛집' },
+          { name: '群来軒(긴레이)', description: '해산물 사라우동', specialty: '신선한 해산물과 야채의 완벽한 조화', rating: 4.7, reviews: 423, details: '볶음우동과는 다른 나가사키만의 맛' },
+          { name: '蓬莱(호라이)', description: '전통 사라우동', specialty: '3대째 이어온 전통 사라우동 레시피', rating: 4.6, reviews: 356, details: '관광과 맛을 동시에 즐길 수 있는 곳' }
         ];
       }
       if (query.includes('카스테라') || query.includes('kasutera')) {
         return [
-          { name: '후쿠사야', description: '카스테라 원조', specialty: '1624년 창업의 일본 최초 카스테라', rating: 4.9, reviews: 1123, details: '400년 전통의 나가사키 대표 과자점' },
-          { name: '리쿠로 아저씨', description: '현대식 카스테라', specialty: '부드럽고 촉촉한 현대식 카스테라', rating: 4.8, reviews: 789, details: '젊은층에게 인기 있는 카스테라 브랜드' },
-          { name: '마츠자키야', description: '고급 카스테라', specialty: '최고급 재료로 만든 프리미엄 카스테라', rating: 4.7, reviews: 567, details: '선물용으로 최고 인기인 카스테라' }
+          { name: '福砂屋(후쿠사야)', description: '카스테라 원조', specialty: '1624년 창업의 일본 최초 카스테라', rating: 4.9, reviews: 1123, details: '400년 전통의 나가사키 대표 과자점' },
+          { name: '松翁軒(쇼켄도)', description: '현대식 카스테라', specialty: '부드럽고 촉촉한 현대식 카스테라', rating: 4.8, reviews: 789, details: '젊은층에게 인기 있는 카스테라 브랜드' },
+          { name: 'りんが(린가)', description: '고급 카스테라', specialty: '최고급 재료로 만든 프리미엄 카스테라', rating: 4.7, reviews: 567, details: '선물용으로 최고 인기인 카스테라' }
         ];
       }
     }
@@ -178,23 +171,9 @@ class TrendingDataService {
     if (query.includes('사세보')) {
       if (query.includes('버거') || query.includes('burger')) {
         return [
-          { name: '빅맨', description: '사세보버거 원조', specialty: '1950년대부터 이어진 오리지널 사세보버거', rating: 4.8, reviews: 834, details: '미군기지 근처에서 시작된 진짜 원조 버거' },
-          { name: '럭키스', description: '인기 버거집', specialty: '볼륨 가득한 수제 패티 버거', rating: 4.7, reviews: 623, details: '현지인들이 가장 많이 찾는 버거집' },
-          { name: '히카리', description: '노포 버거집', specialty: '50년 전통의 변하지 않는 맛', rating: 4.6, reviews: 445, details: '소박하지만 진짜 맛있는 동네 버거집' }
-        ];
-      }
-      if (query.includes('고래') || query.includes('kujira')) {
-        return [
-          { name: '고래 전문점', description: '고래고기 요리', specialty: '일본 전통 고래고기 요리 전문', rating: 4.7, reviews: 234, details: '귀한 고래고기를 맛볼 수 있는 특별한 곳' },
-          { name: '사세보 해산물', description: '전통 고래요리', specialty: '사세보 전통 방식의 고래고기 조리', rating: 4.6, reviews: 156, details: '일본 문화를 체험할 수 있는 맛집' },
-          { name: '바다 맛집', description: '고래 코스', specialty: '고래고기 코스 요리 전문점', rating: 4.5, reviews: 123, details: '특별한 날을 위한 고급 요리' }
-        ];
-      }
-      if (query.includes('굴') || query.includes('oyster')) {
-        return [
-          { name: '구주구시마 굴집', description: '신선한 굴', specialty: '구주구시마 바다에서 바로 올린 신선한 굴', rating: 4.8, reviews: 567, details: '굴의 신선도로 유명한 해산물 맛집' },
-          { name: '사세보 굴구이', description: '굴구이 전문', specialty: '숯불에 구운 향긋한 굴구이', rating: 4.7, reviews: 423, details: '굴 시즌에 꼭 가봐야 할 맛집' },
-          { name: '오이스터 하우스', description: '굴 요리 전문', specialty: '다양한 방식으로 조리한 굴 요리', rating: 4.6, reviews: 334, details: '굴을 싫어하는 사람도 좋아하게 만드는 맛' }
+          { name: 'ビッグマン(빅맨)', description: '사세보 버거 원조', specialty: '미군기지에서 시작된 원조 사세보 버거', rating: 4.9, reviews: 823, details: '60년 전통의 사세보 대표 버거집' },
+          { name: 'ラッキーズ(러키즈)', description: '수제 패티', specialty: '매일 직접 만드는 수제 패티 버거', rating: 4.8, reviews: 645, details: '현지인들이 인정하는 정통 사세보 버거' },
+          { name: 'ログキット(로그킷)', description: '아메리칸 스타일', specialty: '미국 스타일의 진짜 사세보 버거', rating: 4.7, reviews: 534, details: '관광객들이 가장 많이 찾는 버거집' }
         ];
       }
     }
@@ -203,23 +182,23 @@ class TrendingDataService {
     if (query.includes('오이타')) {
       if (query.includes('분고규') || query.includes('bungo_beef')) {
         return [
-          { name: '분고규 명가', description: '최고급 와규', specialty: '오이타현 대표 브랜드 분고규 전문점', rating: 4.9, reviews: 654, details: '마블링이 완벽한 최고급 일본 와규' },
-          { name: '오이타 스테이크', description: '와규 스테이크', specialty: '분고규로 만든 극상의 스테이크', rating: 4.8, reviews: 445, details: '입에서 녹는 부드러운 와규의 진짜 맛' },
-          { name: '규우나베 전문점', description: '소고기 전골', specialty: '분고규로 끓인 정통 규우나베', rating: 4.7, reviews: 356, details: '일본 전통 소고기 요리의 정수' }
+          { name: '豊後屋(분고야)', description: '최고급 와규', specialty: '오이타현 대표 브랜드 분고규 전문점', rating: 4.9, reviews: 654, details: '마블링이 완벽한 최고급 일본 와규' },
+          { name: '大分焼肉(오이타 스테이크)', description: '와규 스테이크', specialty: '분고규로 만든 극상의 스테이크', rating: 4.8, reviews: 445, details: '입에서 녹는 부드러운 와규의 진짜 맛' },
+          { name: '肉処(니쿠도코로)', description: '소고기 전골', specialty: '분고규로 끓인 정통 규우나베', rating: 4.7, reviews: 356, details: '일본 전통 소고기 요리의 정수' }
         ];
       }
       if (query.includes('지옥찜') || query.includes('jigoku_mushi')) {
         return [
-          { name: '지옥찜 공방', description: '온천 지열 요리', specialty: '별부 온천의 지열로 찐 건강한 요리', rating: 4.8, reviews: 523, details: '100도 온천수 증기로 찐 특별한 맛' },
-          { name: '별부 지옥찜', description: '전통 지열 요리', specialty: '온천 지대에서만 맛볼 수 있는 독특한 요리', rating: 4.7, reviews: 445, details: '자연의 힘으로 조리한 건강 요리' },
-          { name: '온천 요리집', description: '지열 조리법', specialty: '다양한 재료를 지열로 조리한 코스', rating: 4.6, reviews: 334, details: '별부 온천만의 특별한 요리 체험' }
+          { name: '地獄蒸し工房(지고쿠무시 공방)', description: '온천 지열 요리', specialty: '별부 온천의 지열로 찐 건강한 요리', rating: 4.8, reviews: 523, details: '100도 온천수 증기로 찐 특별한 맛' },
+          { name: '別府温泉(별부 지고쿠무시)', description: '전통 지열 요리', specialty: '온천 지대에서만 맛볼 수 있는 독특한 요리', rating: 4.7, reviews: 445, details: '자연의 힘으로 조리한 건강 요리' },
+          { name: '湯布院蒸し屋(온천 요리집)', description: '지열 조리법', specialty: '다양한 재료를 지열로 조리한 코스', rating: 4.6, reviews: 334, details: '별부 온천만의 특별한 요리 체험' }
         ];
       }
       if (query.includes('단고') || query.includes('dango')) {
         return [
-          { name: '야키단고 명가', description: '구운 단고', specialty: '숯불에 구운 전통 야키단고', rating: 4.7, reviews: 378, details: '달콤한 미타라시 소스가 일품' },
-          { name: '오이타 단고집', description: '수제 단고', specialty: '매일 아침 손으로 빚는 수제 단고', rating: 4.6, reviews: 267, details: '쫄깃한 식감과 은은한 단맛' },
-          { name: '전통 과자점', description: '단고 전문', specialty: '100년 전통의 단고 제조 기법', rating: 4.5, reviews: 198, details: '오래된 맛 그대로의 정통 일본 과자' }
+          { name: 'やき団子名家(야키단고 명가)', description: '구운 단고', specialty: '숯불에 구운 전통 야키단고', rating: 4.7, reviews: 378, details: '달콤한 미타라시 소스가 일품' },
+          { name: '大分団子屋(오이타 단고집)', description: '수제 단고', specialty: '매일 아침 손으로 빚는 수제 단고', rating: 4.6, reviews: 267, details: '쫄깃한 식감과 은은한 단맛' },
+          { name: '伝統菓子店(전통 과자점)', description: '단고 전문', specialty: '100년 전통의 단고 제조 기법', rating: 4.5, reviews: 198, details: '오래된 맛 그대로의 정통 일본 과자' }
         ];
       }
     }
@@ -228,32 +207,25 @@ class TrendingDataService {
     if (query.includes('사가')) {
       if (query.includes('사가규') || query.includes('소고기')) {
         return [
-          { name: '사가규 전문점', description: '최고급 사가 와규', specialty: '사가현이 자랑하는 프리미엄 와규', rating: 4.9, reviews: 734, details: '전국 최고 품질의 사가 와규 전문' },
-          { name: '규카츠 명가', description: '사가규 카츠', specialty: '사가규로 만든 두툼한 규카츠', rating: 4.8, reviews: 567, details: '바삭한 튀김옷과 부드러운 고기의 완벽한 조화' },
-          { name: '스테이크 하우스 사가', description: '와규 스테이크', specialty: '사가현 최고급 와규 스테이크', rating: 4.7, reviews: 423, details: '입에서 녹는 최상급 사가 와규' }
+          { name: '佐賀牛本店(사가규 전문점)', description: '최고급 사가 와규', specialty: '사가현이 자랑하는 프리미엄 와규', rating: 4.9, reviews: 734, details: '전국 최고 품질의 사가 와규 전문' },
+          { name: '牛カツ名家(규카츠 명가)', description: '사가규 카츠', specialty: '사가규로 만든 두툼한 규카츠', rating: 4.8, reviews: 567, details: '바삭한 튀김옷과 부드러운 고기의 완벽한 조화' },
+          { name: '焼肉佐賀(스테이크 하우스 사가)', description: '와규 스테이크', specialty: '사가현 최고급 와규 스테이크', rating: 4.7, reviews: 423, details: '입에서 녹는 최상급 사가 와규' }
         ];
       }
-      if (query.includes('유부초밥') || query.includes('이나리')) {
+      if (query.includes('요부코') || query.includes('오징어')) {
         return [
-          { name: '이나리 초밥 본점', description: '전통 유부초밥', specialty: '사가현 전통 방식의 달콤한 유부초밥', rating: 4.8, reviews: 456, details: '70년 전통의 수제 유부초밥' },
-          { name: '사가 스시야', description: '유부초밥 전문', specialty: '매일 직접 만드는 신선한 유부초밥', rating: 4.7, reviews: 334, details: '현지인들이 사랑하는 유부초밥 맛집' },
-          { name: '전통 초밥집', description: '이나리 명가', specialty: '할머니 손맛 그대로의 전통 유부초밥', rating: 4.6, reviews: 278, details: '변하지 않는 옛날 그대로의 맛' }
-        ];
-      }
-      if (query.includes('장어') || query.includes('우나기')) {
-        return [
-          { name: '사가 장어집', description: '장어 전문점', specialty: '사가현 청정 바다에서 잡은 신선한 장어', rating: 4.8, reviews: 523, details: '바삭하게 구운 장어구이가 일품' },
-          { name: '우나기 전문점', description: '장어덮밥', specialty: '부드럽고 고소한 장어덮밥', rating: 4.7, reviews: 398, details: '비밀 소스로 양념한 장어의 진짜 맛' },
-          { name: '야키우나기 명가', description: '구이 장어', specialty: '숯불에 구운 전통 장어구이', rating: 4.6, reviews: 289, details: '50년 전통의 장어 조리법' }
+          { name: 'イカ屋(이카야)', description: '투명 오징어', specialty: '살아있는 요부코 투명 오징어 회', rating: 4.9, reviews: 623, details: '바로 잡은 신선한 요부코 오징어' },
+          { name: '呼子市場(요부코 시장)', description: '오징어 시장', specialty: '시장에서 바로 먹는 신선한 오징어', rating: 4.8, reviews: 545, details: '요부코 어항 직송 오징어' },
+          { name: 'イカ専門店(이카전)', description: '오징어 전문', specialty: '오징어를 이용한 다양한 요리', rating: 4.7, reviews: 456, details: '오징어 덮밥부터 튀김까지 다양한 메뉴' }
         ];
       }
     }
 
-    // 기본값 - 일반적인 맛집 정보
+    // 폴백: 기본 테스트 데이터
     return [
-      { name: '현지 맛집', description: '지역 특색 요리', specialty: '현지인들이 추천하는 정통 맛집', rating: 4.6, reviews: 234, details: '관광객들도 만족하는 현지 맛' },
-      { name: '전통 식당', description: '오래된 노포', specialty: '50년 이상의 전통을 가진 노포', rating: 4.5, reviews: 178, details: '변하지 않는 옛날 그대로의 맛' },
-      { name: '인기 맛집', description: 'SNS 화제', specialty: '젊은층에게 인기인 트렌디한 맛집', rating: 4.4, reviews: 145, details: '인스타그램에서 화제가 된 맛집' }
+      { name: `現地名店(현지 명점)`, description: '인기 맛집', specialty: '현지인 추천 요리', rating: 4.5, reviews: 300, details: '현지에서 유명한 맛집' },
+      { name: `老舗(로포)`, description: '전통 가게', specialty: '오래된 전통 요리', rating: 4.6, reviews: 250, details: '역사가 깊은 전통 맛집' },
+      { name: `新店舗(신포)`, description: '신규 오픈', specialty: '새로운 스타일 요리', rating: 4.4, reviews: 180, details: '최근 오픈한 화제의 맛집' }
     ];
   }
 
@@ -758,6 +730,118 @@ class TrendingDataService {
         }
       }
     }
+  }
+
+  // 음식 트렌드 데이터 가져오기
+  async getFoodTrends(cityId, foodType) {
+    try {
+      const cityName = this.getCityName(cityId);
+      const foodName = this.getFoodName(foodType);
+      const query = `${cityName} ${foodName} 맛집 인기 restaurant trending`;
+      
+      const trends = await this.searchWeb(query, 10);
+      return this.processSearchResults(trends, 'food');
+      
+    } catch (error) {
+      console.error(`음식 트렌드 조회 실패: ${cityId} ${foodType}`, error);
+      throw error;
+    }
+  }
+
+  // 핫플레이스 트렌드 데이터 가져오기
+  async getHotplaceTrends(cityId, placeType) {
+    try {
+      const cityName = this.getCityName(cityId);
+      const placeName = this.getPlaceName(placeType);
+      const query = `${cityName} ${placeName} 관광지 인기 tourist attraction trending`;
+      
+      const trends = await this.searchWeb(query, 10);
+      return this.processSearchResults(trends, 'hotplace');
+      
+    } catch (error) {
+      console.error(`핫플레이스 트렌드 조회 실패: ${cityId} ${placeType}`, error);
+      throw error;
+    }
+  }
+
+  // 검색 결과 처리
+  processSearchResults(results, type) {
+    if (!results || !results.length) {
+      return [];
+    }
+
+    return results.map((result, index) => ({
+      keyword: result.title || `${type} ${index + 1}`,
+      score: Math.random() * 0.3 + 0.7, // 0.7-1.0 사이 점수
+      searchQuery: result.description || result.title,
+      url: result.url,
+      source: 'brave_search',
+      rank: index + 1
+    }));
+  }
+
+  // 도시 이름 가져오기
+  getCityName(cityId) {
+    const cityNames = {
+      fukuoka: '후쿠오카',
+      kurume: '쿠루메',
+      kumamoto: '구마모토',
+      nagasaki: '나가사키',
+      sasebo: '사세보',
+      oita: '오이타',
+      saga: '사가'
+    };
+    return cityNames[cityId] || cityId;
+  }
+
+  getFoodName(foodType) {
+    const foodNames = {
+      ramen: '라멘',
+      mentaiko: '명란젓',
+      motsunabe: '모츠나베',
+      yakitori: '야키토리',
+      udon: '우동',
+      basashi: '바사시',
+      tonkotsu: '돈코츠라멘',
+      karashi: '카라시연근',
+      champon: '짬뽕',
+      sara_udon: '사라우동',
+      kasutera: '카스테라',
+      burger: '사세보버거',
+      kujira: '고래고기',
+      oyster: '굴',
+      bungo_beef: '분고규',
+      jigoku_mushi: '지옥찜',
+      dango: '단고',
+      saga_beef: '사가규',
+      yobuko_squid: '요부코오징어',
+      gagyudon: '가규동'
+    };
+    return foodNames[foodType] || foodType;
+  }
+
+  getPlaceName(placeType) {
+    const placeNames = {
+      ohori_park: '오호리공원',
+      dazaifu: '다자이후',
+      canal_city: '캐널시티',
+      inari_shrine: '신사',
+      chikugo_river: '치쿠고강',
+      ishibashi_bunka: '문화센터',
+      kumamoto_castle: '구마모토성',
+      suizenji: '스이젠지정원',
+      aso_shrine: '아소신사',
+      glover_garden: '글로버정원',
+      peace_park: '평화공원',
+      dejima: '데지마',
+      kujukushima: '구주쿠시마',
+      sasebo_navy: '해군기지',
+      huis_ten_bosch: '하우스텐보스',
+      beppu_onsen: '별부온천',
+      yufuin: '유후인',
+      usuki: '우스키'
+    };
+    return placeNames[placeType] || placeType;
   }
 }
 

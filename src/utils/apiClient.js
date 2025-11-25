@@ -1,7 +1,7 @@
 // API 클라이언트 - 실제 백엔드 연동
 class ApiClient {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+    this.baseURL = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'http://localhost:5000/api';
     this.timeout = 10000; // 10초
     this.retryAttempts = 3;
     this.retryDelay = 1000; // 1초

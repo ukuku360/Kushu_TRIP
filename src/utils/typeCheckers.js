@@ -204,8 +204,19 @@ export const validateTransportData = (transportData) => {
  * @returns {object|null}
  */
 export const getTransportDataSafely = (selectedCities, transportData) => {
-  if (!Array.isArray(selectedCities) || selectedCities.length !== 2) {
-    console.error('Invalid selectedCities: must be array of 2 cities')
+  // Empty array is valid for initial state
+  if (!Array.isArray(selectedCities)) {
+    console.error('Invalid selectedCities: must be an array')
+    return null
+  }
+  
+  // Allow empty array (initial state) or exactly 2 cities
+  if (selectedCities.length === 0) {
+    return null // No error, just no data yet
+  }
+  
+  if (selectedCities.length !== 2) {
+    console.error('Invalid selectedCities: must be array of 2 cities, got:', selectedCities.length)
     return null
   }
   

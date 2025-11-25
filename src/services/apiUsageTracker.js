@@ -7,6 +7,7 @@ class ApiUsageTracker {
 
   // 스토리지 초기화
   initializeStorage() {
+    if (typeof localStorage === 'undefined') return;
     const existing = localStorage.getItem(this.storageKey);
     if (!existing) {
       const initialData = {

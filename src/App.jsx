@@ -14,6 +14,7 @@ import TransportSelection from './components/TransportSelection'
 import TransportDetail from './components/TransportDetail'
 import TrendingDataDebug from './components/TrendingDataDebug'
 import ApiUsageMonitor from './components/ApiUsageMonitor'
+import QuotaMonitor from './components/QuotaMonitor'
 import './App.css'
 
 function App() {
@@ -317,6 +318,9 @@ function App() {
         
         {/* API 사용량 모니터 */}
         <ApiUsageMonitor />
+        
+        {/* Quota 모니터 */}
+        <QuotaMonitor />
       </div>
     </ErrorBoundary>
   )

@@ -12,12 +12,27 @@ dist-ssr/
 build/
 *.local
 
-# Environment variables (중요!)
+# --- 비밀, 환경 변수, API 키 ---
+# 민감한 정보는 커밋하지 마세요. 환경 변수를 사용하세요.
+# .env.example 파일 등으로 필요한 변수를 명시하는 것을 권장합니다.
+
+# 환경 변수 파일
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# 일반적인 인증서/키 파일
+api-keys.json
+secrets.json
+config/secrets.json
+*credentials*.json
+*service-account*.json
+google-services.json
+*.key
+*.pem
+*.secret
 
 # Editor files
 .vscode/
@@ -52,12 +67,6 @@ pids/
 # 테스트 커버리지
 coverage/
 *.lcov
-
-# API 키 설정 파일들
-api-keys.json
-config/secrets.json
-*.key
-*.pem
 
 # 기타
 .nyc_output/

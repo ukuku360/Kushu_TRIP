@@ -1,13 +1,15 @@
 import { searchRestaurants, getPlaceReviews, scrapeAdditionalReviews } from '../utils/googlePlacesAPI.js';
 import googleMapsReviewScraper from './googleMapsReviewScraper.js';
 import apiUsageTracker from './apiUsageTracker.js';
+import { geminiLimiter } from '../utils/rateLimiter.js';
+import { geminiCache } from '../utils/apiCache.js';
 
 class ReviewSummaryService {
   constructor() {
     this.cache = new Map();
     this.cacheExpiry = 10 * 60 * 1000; // 10분
     this.geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
     
     if (!this.geminiApiKey) {
       console.warn('⚠️ Gemini API 키가 설정되지 않았습니다. 환경변수 VITE_GEMINI_API_KEY를 확인하세요.');
@@ -60,7 +62,18 @@ class ReviewSummaryService {
       throw new Error('요약할 리뷰가 없습니다.');
     }
 
+    // Check cache first
+    const cacheKey = geminiCache.generateKey('summarize', { restaurantName, reviewCount: reviews.length });
+    const cached = geminiCache.get(cacheKey);
+    if (cached) {
+      console.log('⚡ Using cached Gemini summary');
+      return cached;
+    }
+
     try {
+      // Rate limiting
+      await geminiLimiter.waitForToken('summary');
+      
       // 리뷰 텍스트 준비
       const reviewTexts = reviews.map((review, index) => 
         `리뷰 ${index + 1}: "${review.text}" (평점: ${review.rating}/5)`
@@ -114,13 +127,18 @@ ${reviewTexts}
 
       const summary = data.candidates[0].content.parts[0].text;
       
-      return {
+      const result = {
         summary: summary,
         reviewCount: reviews.length,
         averageRating: this.calculateAverageRating(reviews),
         source: 'real_gemini_api',
         lastUpdated: new Date().toISOString()
       };
+
+      // Cache the result
+      geminiCache.set(cacheKey, result);
+      
+      return result;
       
     } catch (error) {
       console.error('Gemini API 요약 실패:', error);
@@ -155,6 +173,9 @@ ${reviewTexts}
     }
 
     try {
+      // Rate limiting for test
+      await geminiLimiter.waitForToken('test');
+      
       const testPrompt = '안녕하세요라고 한국어로 간단히 답해주세요.';
       
       const response = await fetch(`${this.baseUrl}?key=${this.geminiApiKey}`, {
