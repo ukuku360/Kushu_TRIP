@@ -13,6 +13,10 @@
       "destination": "/api/gemini/:path*"
     },
     {
+      "source": "/api/places/:path*",
+      "destination": "https://places.googleapis.com/v1/:path*"
+    },
+    {
       "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     }

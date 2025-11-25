@@ -56,6 +56,21 @@ export default defineConfig(({ mode }) => {
               }
             })
           }
+        },
+
+        // Google Places API (New) 프록시
+        '/api/places': {
+          target: 'https://places.googleapis.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/places/, '/v1'),
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              if (env.VITE_GOOGLE_PLACES_API_KEY) {
+                proxyReq.setHeader('X-Goog-Api-Key', env.VITE_GOOGLE_PLACES_API_KEY)
+                proxyReq.setHeader('X-Goog-FieldMask', req.headers['x-goog-fieldmask'] || '*')
+              }
+            })
+          }
         }
       }
     },
