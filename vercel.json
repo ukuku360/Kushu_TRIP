@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/maps/api/:path*",
+      "destination": "https://maps.googleapis.com/maps/api/:path*"
+    },
+    {
+      "source": "/api/search",
+      "destination": "/api/search"
+    },
+    {
+      "source": "/api/gemini/:path*",
+      "destination": "/api/gemini/:path*"
+    },
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
